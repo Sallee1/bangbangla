@@ -1,7 +1,9 @@
 package com.sallee.bangbangla.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sallee.bangbangla.mapper.*;
+import com.sallee.bangbangla.pojo.DAO.AdminDAO;
 import com.sallee.bangbangla.pojo.DAO.BanDAO;
 import com.sallee.bangbangla.pojo.DTO.BanUserDTO;
 import com.sallee.bangbangla.pojo.DTO.LoginDTO;
@@ -31,8 +33,16 @@ public class AdminServerImpl implements AdminServer {
 
 
 	@Override
-	public boolean login(LoginDTO loginDTO) {
-		return false;
+	public Integer login(LoginDTO loginDTO) {
+		//从数据库查询管理员是否存在
+		QueryWrapper queryWrapper = new QueryWrapper();
+		queryWrapper.eq("user_name",loginDTO.getUserName());
+		AdminDAO admin = adminMapper.selectOne(queryWrapper);
+		if(admin == null)throw new RuntimeException("ADMIN_USER_NOT_EXIST");
+
+		if(admin.getPassword().equals(StaticTool.getSHA256(loginDTO.getPassword()+admin.getSalt())))
+			return  admin.getId();
+		throw new RuntimeException("ADMIN_PASSWORD_ERROR");
 	}
 
 	@Override

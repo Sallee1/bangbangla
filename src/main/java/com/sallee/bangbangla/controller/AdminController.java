@@ -18,8 +18,8 @@ public class AdminController {
 
 	@RequestMapping("/admin/login")
 	public ServerResult login(LoginDTO loginDTO) {
-
-		return null;
+		Integer id =  adminServer.login(loginDTO);
+		return new ServerResult(0,"登录成功",id);
 	}
 
 	@RequestMapping("/admin/item")

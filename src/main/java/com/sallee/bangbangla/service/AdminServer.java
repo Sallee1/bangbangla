@@ -12,10 +12,11 @@ public interface AdminServer {
 
   /**
    * 管理员账户登陆
+   *
    * @param loginDTO
    * @return 是否成功
    */
-  public boolean login(LoginDTO loginDTO);
+  public Integer login(LoginDTO loginDTO);
 
   /**
    * 查看指定物品id的订单详细信息
