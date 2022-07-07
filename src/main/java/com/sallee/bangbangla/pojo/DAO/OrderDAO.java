@@ -8,7 +8,7 @@ import java.util.Date;
 
 @TableName("orders")
 public class OrderDAO {
-	@TableId(type = IdType.AUTO)//设置id为主键，id的值是由数据库自动生成
+	@TableId(type = IdType.AUTO)//璁剧疆id涓轰富閿紝id鐨勫�兼槸鐢辨暟鎹簱鑷姩鐢熸垚
 	Integer id;
 	Integer sellerId;
 	Integer buyerId;
