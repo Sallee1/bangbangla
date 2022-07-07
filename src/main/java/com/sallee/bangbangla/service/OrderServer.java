@@ -4,6 +4,8 @@ package com.sallee.bangbangla.service;
 import com.sallee.bangbangla.pojo.DTO.UserItemRelateDTO;
 import com.sallee.bangbangla.pojo.VO.UserCreditVO;
 
+import java.util.List;
+
 public interface OrderServer {
   /**
    * 为订单添加一个意愿者
@@ -17,7 +19,7 @@ public interface OrderServer {
    * @param itemId
    * @return 意愿者的信用列表
    */
-  public UserCreditVO selectAllBuyer(Integer itemId);
+  public List<UserCreditVO> selectAllBuyer(Integer itemId);
 
   /**
    * 选择一个意愿者
