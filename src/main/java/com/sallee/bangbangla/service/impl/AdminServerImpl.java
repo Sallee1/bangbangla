@@ -14,6 +14,7 @@ import com.sallee.bangbangla.pojo.Enum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +32,10 @@ public class AdminServerImpl implements AdminServer {
 	public AdminMapper adminMapper;
 	@Autowired
 	public BanMapper banMapper;
+	@Autowired
+	public UserItemRelateMapper userItemRelateMapper;
+	@Autowired
+	public UserItemRelateHistoryMapper userItemRelateHistoryMapper;
 
 
 	@Override
@@ -66,69 +71,70 @@ public class AdminServerImpl implements AdminServer {
 			isOld = true;
 		}
 
-		//拼接买家用户名
-		Integer buyerId=null,sellId=null;
-		Date dealTime = null;
-		if(isOld)
-		{
-			buyerId = hisItem.getBuyerId();
-			sellId = hisItem.getSellerId();
-			dealTime = hisItem.getDealTime();
-		}
-		else
-		{
-			QueryWrapper orderQueryWrapper = new QueryWrapper();
-			orderQueryWrapper.eq("item_id",itemId);
-			OrderDAO order = orderMapper.selectOne(orderQueryWrapper);
-			if(order != null) {
-				buyerId = order.getBuyerId();
-				dealTime = order.getDealTime();
-			}
-			sellId=item.getSellerId();
-		}
-
 		//装载
-		AdminOrderVO adminOrderVO = new AdminOrderVO();
-		adminOrderVO.setSellerId(sellId);
-		adminOrderVO.setBuyerId(buyerId);
-		if(isOld)
-		{
-			adminOrderVO.setCreateTime(hisItem.getCreateTime());
-			adminOrderVO.setDealTime(dealTime);
-			adminOrderVO.setFinishTime(hisItem.getFinishTime());
-			adminOrderVO.setState(Enum.OrderState.values()[hisItem.getState()].toString());
-			adminOrderVO.setTitle(hisItem.getTitle());
-			adminOrderVO.setIntroduce(hisItem.getIntroduce());
-			adminOrderVO.setPrice(hisItem.getPrice());
-			adminOrderVO.setImagePaths(hisItem.getImagePaths());
-			adminOrderVO.setMainLabel(Enum.OrderState.values()[hisItem.getState()].toString());
-			adminOrderVO.setSubLabel(hisItem.getSubLabel());
-			adminOrderVO.setCommit(hisItem.getCommit());
-			adminOrderVO.setCredit(hisItem.getCredit());
-		}else
-		{
-			adminOrderVO.setCreateTime(item.getCreateTime());
-			adminOrderVO.setDealTime(dealTime);
-			adminOrderVO.setState(Enum.OrderState.values()[item.getState()].toString());
-			adminOrderVO.setTitle(item.getTitle());
-			adminOrderVO.setIntroduce(item.getIntroduce());
-			adminOrderVO.setPrice(item.getPrice());
-			adminOrderVO.setImagePaths(item.getImagePaths());
-			adminOrderVO.setMainLabel(Enum.OrderState.values()[item.getState()].toString());
-			adminOrderVO.setSubLabel(item.getSubLabel());
-		}
-
+		AdminOrderVO adminOrderVO;
+		if(isOld) adminOrderVO = new AdminOrderVO(hisItem);
+		else adminOrderVO = new AdminOrderVO(item,orderMapper);
 		return adminOrderVO;
 	}
 
 	@Override
 	public List<AdminOrderVO> selectAllOrder() {
-		return null;
+		//查询所有的订单表和历史订单表
+		List<ItemDAO> items = itemMapper.selectList(null);
+		List<OrderHistoryDAO> orderHistoryDAOS = orderHistoryMapper.selectList(null);
+		//复制到AdminOrderVO
+		List<AdminOrderVO> adminOrderVOList = new ArrayList<>();
+		for(ItemDAO item:items) {
+			AdminOrderVO adminOrderVO = new AdminOrderVO(item,orderMapper);
+			adminOrderVOList.add(adminOrderVO);
+		}
+		for(OrderHistoryDAO hisItems:orderHistoryDAOS)
+		{
+			AdminOrderVO adminOrderVO = new AdminOrderVO(hisItems);
+			adminOrderVOList.add(adminOrderVO);
+		}
+		return adminOrderVOList;
 	}
 
 	@Override
 	public boolean removeItem(Integer itemId) {
-		return false;
+		boolean isOld = false;
+		//从订单列表查询
+		QueryWrapper itemQueryWrapper = new QueryWrapper();
+		itemQueryWrapper.eq("id",itemId);
+		ItemDAO item = itemMapper.selectOne(itemQueryWrapper);
+
+		//如果找不到，从历史订单找
+		OrderHistoryDAO hisItem;
+		QueryWrapper hisItemQueryWrapper = null;
+		if(item == null)
+		{
+			hisItemQueryWrapper = new QueryWrapper();
+			hisItemQueryWrapper.eq("id",itemId);
+
+			hisItem = orderHistoryMapper.selectOne(hisItemQueryWrapper);
+			if(hisItem == null) throw new RuntimeException("ADMIN_ITEM_NOT_EXIST");
+			isOld = true;
+		}
+
+		//移除对应的订单
+		if(isOld)
+		{
+			orderHistoryMapper.delete(hisItemQueryWrapper);
+			QueryWrapper userItemHisQueryWrapper = new QueryWrapper();
+			userItemHisQueryWrapper.eq("item_id",itemId);
+			userItemRelateHistoryMapper.delete(userItemHisQueryWrapper);
+		}
+		else
+		{
+			itemMapper.delete(itemQueryWrapper);
+			QueryWrapper orderQueryWrapper = new QueryWrapper();
+			orderQueryWrapper.eq("item_id",itemId);
+			userItemRelateMapper.delete(orderQueryWrapper);
+			orderMapper.delete(orderQueryWrapper);
+		}
+		return true;
 	}
 
 	@Override

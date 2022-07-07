@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 public class AdminController {
@@ -31,14 +33,14 @@ public class AdminController {
 
 	@RequestMapping("/admin/allOrder")
 	public ServerResult selectAllOrder() {
-
-		return null;
+		List<AdminOrderVO> adminOrderVOList = adminServer.selectAllOrder();
+		return new ServerResult(0,"查找成功",adminOrderVOList);
 	}
 
 	@RequestMapping("/admin/removeItem")
 	public ServerResult removeItem(Integer itemId) {
-
-		return null;
+		boolean isSuccess = adminServer.removeItem(itemId);
+		return new ServerResult(0,"删除成功",isSuccess);
 	}
 
 	@RequestMapping("/admin/username")
