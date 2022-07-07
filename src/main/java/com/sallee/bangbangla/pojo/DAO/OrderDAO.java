@@ -13,9 +13,9 @@ public class OrderDAO {
 	Integer sellerId;
 	Integer buyerId;
 	Integer itemId;
-	Integer payState;
-	Integer state;
-	Date dealTime;
+	Integer payState;//订单支付由谁支付
+	Integer state;//订单状态
+	Date dealTime;//订单创建时间
 
 //	public OrderDAO(){}
 //

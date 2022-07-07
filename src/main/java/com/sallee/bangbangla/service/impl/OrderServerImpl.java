@@ -3,8 +3,10 @@ package com.sallee.bangbangla.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sallee.bangbangla.mapper.*;
+import com.sallee.bangbangla.pojo.DAO.ItemDAO;
 import com.sallee.bangbangla.pojo.DAO.OrderDAO;
 import com.sallee.bangbangla.pojo.DAO.UserItemRelateDAO;
+import com.sallee.bangbangla.pojo.DTO.OrderDTO;
 import com.sallee.bangbangla.pojo.DTO.UserItemRelateDTO;
 import com.sallee.bangbangla.pojo.VO.UserCreditVO;
 import com.sallee.bangbangla.service.OrderServer;
@@ -53,11 +55,35 @@ public class OrderServerImpl implements OrderServer {
 
 	@Override
 	public Integer chooseBuyer(UserItemRelateDTO userItemRelateDTO) {
+
+
+		return null;
+	}
+
+	@Override
+	public Integer createOrder(OrderDTO orderDTO) {
+		OrderDAO orderDAO = new OrderDAO();
+		BeanUtils.copyProperties(orderDTO,orderDAO);
+		QueryWrapper queryWrapper = new QueryWrapper();
+		queryWrapper.eq("item_id",orderDTO.getItemId());
+		ItemDAO itemDAO = itemMapper.selectById(queryWrapper);
+
+		//根据item交易类型来决定谁付钱
+		if(itemDAO.getMainLabel() == 0){
+			orderDAO.setPayState(0);
+		}else{
+			orderDAO.setPayState(1);
+		}
+		//设订单状态为等待支付
+		itemDAO.setState(0);
+
+
 		return null;
 	}
 
 	@Override
 	public boolean pay(Integer orderId) {
+
 		return false;
 	}
 
