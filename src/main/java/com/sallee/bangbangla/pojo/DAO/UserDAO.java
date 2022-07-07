@@ -1,15 +1,20 @@
 package com.sallee.bangbangla.pojo.DAO;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.util.Date;
 
 @TableName("users")
 public class UserDAO {
+	@TableId(type=IdType.AUTO)//设置id主键的值是由数据库自动生成
 	Integer id;
 	String userName;
 	String password;
 	String salt;
-	Long registerTime;
-	Long unBanTime;
+	Date registerTime;
+	Date unbanTime;
 	Integer sex;
 	String nickName;
 	String introduction;
@@ -25,7 +30,7 @@ public class UserDAO {
 
 	public UserDAO(){}
 
-	public UserDAO(Integer id, String userName, String password, String salt, Long registerTime, Long unBanTime,
+	public UserDAO(Integer id, String userName, String password, String salt, Date registerTime, Date unBanTime,
 								 Integer sex, String nickName, String introduction, String realName, String idCard, String realTel,
 								 String universityPos, String universityName, String studentId, Integer score, Integer totalCredit,
 								 Integer creditCount) {
@@ -34,7 +39,7 @@ public class UserDAO {
 		this.password = password;
 		this.salt = salt;
 		this.registerTime = registerTime;
-		this.unBanTime = unBanTime;
+		this.unbanTime = unBanTime;
 		this.sex = sex;
 		this.nickName = nickName;
 		this.introduction = introduction;
@@ -81,20 +86,20 @@ public class UserDAO {
 		this.salt = salt;
 	}
 
-	public Long getRegisterTime() {
+	public Date getRegisterTime() {
 		return registerTime;
 	}
 
-	public void setRegisterTime(Long registerTime) {
+	public void setRegisterTime(Date registerTime) {
 		this.registerTime = registerTime;
 	}
 
-	public Long getUnBanTime() {
-		return unBanTime;
+	public Date getUnBanTime() {
+		return unbanTime;
 	}
 
-	public void setUnBanTime(Long unBanTime) {
-		this.unBanTime = unBanTime;
+	public void setUnBanTime(Date unBanTime) {
+		this.unbanTime = unBanTime;
 	}
 
 	public Integer getSex() {
