@@ -1,9 +1,12 @@
 package com.sallee.bangbangla.pojo.DAO;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("orders")
 public class OrderDAO {
+	@TableId(type = IdType.AUTO)//设置id为主键，id的值是由数据库自动生成
 	Integer id;
 	Integer sellerId;
 	Integer buyerId;
@@ -12,18 +15,18 @@ public class OrderDAO {
 	Integer state;
 	Long dealTime;
 
-	public OrderDAO(){}
-
-	public OrderDAO(Integer id, Integer sellerId, Integer buyerId, Integer itemId,
-									Integer payState, Integer state, Long dealTime) {
-		this.id = id;
-		this.sellerId = sellerId;
-		this.buyerId = buyerId;
-		this.itemId = itemId;
-		this.payState = payState;
-		this.state = state;
-		this.dealTime = dealTime;
-	}
+//	public OrderDAO(){}
+//
+//	public OrderDAO(Integer id, Integer sellerId, Integer buyerId, Integer itemId,
+//									Integer payState, Integer state, Long dealTime) {
+//		this.id = id;
+//		this.sellerId = sellerId;
+//		this.buyerId = buyerId;
+//		this.itemId = itemId;
+//		this.payState = payState;
+//		this.state = state;
+//		this.dealTime = dealTime;
+//	}
 
 	public Integer getId() {
 		return id;
