@@ -2,6 +2,8 @@ package com.sallee.bangbangla.pojo.DAO;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.Date;
+
 @TableName("orders")
 public class OrderDAO {
 	Integer id;
@@ -10,12 +12,12 @@ public class OrderDAO {
 	Integer itemId;
 	Integer payState;
 	Integer state;
-	Long dealTime;
+	Date dealTime;
 
 	public OrderDAO(){}
 
 	public OrderDAO(Integer id, Integer sellerId, Integer buyerId, Integer itemId,
-									Integer payState, Integer state, Long dealTime) {
+									Integer payState, Integer state, Date dealTime) {
 		this.id = id;
 		this.sellerId = sellerId;
 		this.buyerId = buyerId;
@@ -73,11 +75,11 @@ public class OrderDAO {
 		this.state = state;
 	}
 
-	public Long getDealTime() {
+	public Date getDealTime() {
 		return dealTime;
 	}
 
-	public void setDealTime(Long dealTime) {
+	public void setDealTime(Date dealTime) {
 		this.dealTime = dealTime;
 	}
 }

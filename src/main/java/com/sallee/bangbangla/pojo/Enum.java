@@ -8,5 +8,5 @@ public class Enum {
   public enum PayState{SELLER_PAY,BUYER_PAY}
   public enum MainLabel{SELL,HELP}
   public enum ReportState{NOT_DONE,DONE}
-  
+
 }

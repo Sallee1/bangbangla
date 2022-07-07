@@ -2,16 +2,17 @@ package com.sallee.bangbangla.pojo.DAO;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.Date;
 import java.util.List;
 
 @TableName("order_history")
-public class OrdersHistoryDAO {
+public class OrderHistoryDAO {
 	Integer id;
 	Integer sellerId;
 	Integer buyerId;
-	Long createTime;
-	Long dealTime;
-	Long finishTime;
+	Date createTime;
+	Date dealTime;
+	Date finishTime;
 	Integer state;
 	Integer payState;
 	String title;
@@ -22,11 +23,11 @@ public class OrdersHistoryDAO {
 	List<String> subLabel;
 	String commit;
 
-	public OrdersHistoryDAO(){}
+	public OrderHistoryDAO(){}
 
-	public OrdersHistoryDAO(Integer id, Integer sellerId, Integer buyerId, Long createTime, Long dealTime, Long finishTime,
-									 Integer state, Integer payState, String title, String introduce, Integer price, List<String> imagePaths,
-									 Integer mainLabel, List<String> subLabel, String commit) {
+	public OrderHistoryDAO(Integer id, Integer sellerId, Integer buyerId, Date createTime, Date dealTime, Date finishTime,
+												 Integer state, Integer payState, String title, String introduce, Integer price, List<String> imagePaths,
+												 Integer mainLabel, List<String> subLabel, String commit) {
 		this.id = id;
 		this.sellerId = sellerId;
 		this.buyerId = buyerId;
@@ -68,27 +69,27 @@ public class OrdersHistoryDAO {
 		this.buyerId = buyerId;
 	}
 
-	public Long getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 
-	public Long getDealTime() {
+	public Date getDealTime() {
 		return dealTime;
 	}
 
-	public void setDealTime(Long dealTime) {
+	public void setDealTime(Date dealTime) {
 		this.dealTime = dealTime;
 	}
 
-	public Long getFinishTime() {
+	public Date getFinishTime() {
 		return finishTime;
 	}
 
-	public void setFinishTime(Long finishTime) {
+	public void setFinishTime(Date finishTime) {
 		this.finishTime = finishTime;
 	}
 

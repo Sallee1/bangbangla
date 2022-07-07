@@ -2,13 +2,14 @@ package com.sallee.bangbangla.pojo.DAO;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.Date;
 import java.util.List;
 
 @TableName("items")
 public class ItemDAO {
 	Integer id;
 	Integer sellerId;
-	Long createTime;
+	Date createTime;
 	Integer state;
 	String title;
 	String introduce;
@@ -21,7 +22,7 @@ public class ItemDAO {
 
 	public ItemDAO(){}
 
-	public ItemDAO(Integer id, Integer sellerId, Long createTime, Integer state, String title, String introduce,
+	public ItemDAO(Integer id, Integer sellerId, Date createTime, Integer state, String title, String introduce,
 								 Integer price, List<String> imagePaths, Integer mainLabel, List<String> subLabel, Integer want_count,
 								 Integer view_count) {
 		this.id = id;
@@ -54,11 +55,11 @@ public class ItemDAO {
 		this.sellerId = sellerId;
 	}
 
-	public Long getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 

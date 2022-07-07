@@ -1,6 +1,8 @@
 package com.sallee.bangbangla.pojo.VO;
 
 
+import java.util.Date;
+
 public class AdminReportVO {
 	Integer id;
 	Integer reportId;
@@ -9,14 +11,14 @@ public class AdminReportVO {
 	String beReportUserName;
 	Integer itemId;
 	Integer itemTitle;
-	Long reportTime;
+	Date reportTime;
 	String result;
 	String state;
 
 	public AdminReportVO() {}
 
 	public AdminReportVO(Integer id, Integer reportId, String reportUserName, Integer beReportId,
-											 String beReportUserName, Integer itemId, Integer itemTitle, Long reportTime, String result,
+											 String beReportUserName, Integer itemId, Integer itemTitle, Date reportTime, String result,
 											 String state) {
 		this.id = id;
 		this.reportId = reportId;
@@ -86,11 +88,11 @@ public class AdminReportVO {
 		this.itemTitle = itemTitle;
 	}
 
-	public Long getReportTime() {
+	public Date getReportTime() {
 		return reportTime;
 	}
 
-	public void setReportTime(Long reportTime) {
+	public void setReportTime(Date reportTime) {
 		this.reportTime = reportTime;
 	}
 

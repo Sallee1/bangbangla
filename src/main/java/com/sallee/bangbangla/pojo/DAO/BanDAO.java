@@ -2,6 +2,8 @@ package com.sallee.bangbangla.pojo.DAO;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.Date;
+
 @TableName("ban_list")
 public class BanDAO {
 	Integer id;
@@ -9,12 +11,12 @@ public class BanDAO {
 	Integer banType;
 	String result;
 	Integer opId;
-	Long startTime;
-	Long endTime;
+	Date startTime;
+	Date endTime;
 
 	public BanDAO() {}
 
-	public BanDAO(Integer id, Integer banId, Integer banType, String result, Integer opId, Long startTime, Long endTime) {
+	public BanDAO(Integer id, Integer banId, Integer banType, String result, Integer opId, Date startTime, Date endTime) {
 		this.id = id;
 		this.banId = banId;
 		this.banType = banType;
@@ -64,19 +66,19 @@ public class BanDAO {
 		this.opId = opId;
 	}
 
-	public Long getStartTime() {
+	public Date getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Long startTime) {
+	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
 
-	public Long getEndTime() {
+	public Date getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(Long endTime) {
+	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
 }

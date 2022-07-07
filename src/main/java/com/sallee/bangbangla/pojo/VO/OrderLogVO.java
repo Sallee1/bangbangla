@@ -1,16 +1,18 @@
 package com.sallee.bangbangla.pojo.VO;
 
 
+import java.util.Date;
+
 public class OrderLogVO {
 	Integer orderId;
 	String title;
-	Long createTime;
+	Date createTime;
 	String state;
 
 	public OrderLogVO() {
 	}
 
-	public OrderLogVO(Integer orderId, String title, Long createTime, String state) {
+	public OrderLogVO(Integer orderId, String title, Date createTime, String state) {
 		this.orderId = orderId;
 		this.title = title;
 		this.createTime = createTime;
@@ -33,11 +35,11 @@ public class OrderLogVO {
 		this.title = title;
 	}
 
-	public Long getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 

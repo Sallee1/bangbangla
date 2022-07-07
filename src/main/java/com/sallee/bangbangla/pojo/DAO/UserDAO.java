@@ -2,14 +2,16 @@ package com.sallee.bangbangla.pojo.DAO;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.Date;
+
 @TableName("users")
 public class UserDAO {
 	Integer id;
 	String userName;
 	String password;
 	String salt;
-	Long registerTime;
-	Long unBanTime;
+	Date registerTime;
+	Date unBanTime;
 	Integer sex;
 	String nickName;
 	String introduction;
@@ -25,7 +27,7 @@ public class UserDAO {
 
 	public UserDAO(){}
 
-	public UserDAO(Integer id, String userName, String password, String salt, Long registerTime, Long unBanTime,
+	public UserDAO(Integer id, String userName, String password, String salt, Date registerTime, Date unBanTime,
 								 Integer sex, String nickName, String introduction, String realName, String idCard, String realTel,
 								 String universityPos, String universityName, String studentId, Integer score, Integer totalCredit,
 								 Integer creditCount) {
@@ -81,19 +83,19 @@ public class UserDAO {
 		this.salt = salt;
 	}
 
-	public Long getRegisterTime() {
+	public Date getRegisterTime() {
 		return registerTime;
 	}
 
-	public void setRegisterTime(Long registerTime) {
+	public void setRegisterTime(Date registerTime) {
 		this.registerTime = registerTime;
 	}
 
-	public Long getUnBanTime() {
+	public Date getUnBanTime() {
 		return unBanTime;
 	}
 
-	public void setUnBanTime(Long unBanTime) {
+	public void setUnBanTime(Date unBanTime) {
 		this.unBanTime = unBanTime;
 	}
 
