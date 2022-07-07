@@ -1,12 +1,19 @@
 package com.sallee.bangbangla.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sallee.bangbangla.mapper.*;
+import com.sallee.bangbangla.pojo.DAO.OrderDAO;
+import com.sallee.bangbangla.pojo.DAO.UserItemRelateDAO;
 import com.sallee.bangbangla.pojo.DTO.UserItemRelateDTO;
 import com.sallee.bangbangla.pojo.VO.UserCreditVO;
 import com.sallee.bangbangla.service.OrderServer;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class OrderServerImpl implements OrderServer {
@@ -25,12 +32,23 @@ public class OrderServerImpl implements OrderServer {
 
 	@Override
 	public boolean addWant(UserItemRelateDTO userItemRelateDTO) {
-		return false;
+		UserItemRelateDAO userItemRelateDAO = new UserItemRelateDAO();
+		BeanUtils.copyProperties(userItemRelateDTO,userItemRelateDAO);
+		int insertRow = userItemRelateMapper.insert(userItemRelateDAO);
+		if (insertRow > 0){
+			return true;
+		}
+		else{
+			throw new RuntimeException();
+		}
 	}
 
 	@Override
-	public UserCreditVO selectAllBuyer(Integer itemId) {
-		return null;
+	public List<UserCreditVO> selectAllBuyer(Integer itemId) {
+		QueryWrapper queryWrapper = new QueryWrapper();
+		queryWrapper.eq("item_id",itemId);
+		List<UserCreditVO> daoList = userItemRelateMapper.selectList(queryWrapper);
+		return daoList;
 	}
 
 	@Override
