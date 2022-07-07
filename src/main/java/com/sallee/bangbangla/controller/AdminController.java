@@ -4,6 +4,7 @@ package com.sallee.bangbangla.controller;
 import com.sallee.bangbangla.pojo.DTO.BanUserDTO;
 import com.sallee.bangbangla.pojo.DTO.LoginDTO;
 import com.sallee.bangbangla.pojo.ServerResult;
+import com.sallee.bangbangla.pojo.VO.AdminOrderVO;
 import com.sallee.bangbangla.service.AdminServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,8 +25,8 @@ public class AdminController {
 
 	@RequestMapping("/admin/item")
 	public ServerResult selectItemsWithId(Integer itemId) {
-
-		return null;
+		AdminOrderVO adminOrderVO = adminServer.selectItemsWithId(itemId);
+		return new ServerResult(0,"查找成功",adminOrderVO);
 	}
 
 	@RequestMapping("/admin/allOrder")

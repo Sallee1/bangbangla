@@ -18,26 +18,8 @@ public class AdminOrderVO {
 	List<String> imagePaths;
 	String mainLabel;
 	List<String> subLabel;
-
-	public AdminOrderVO() {}
-
-	public AdminOrderVO(Integer id, Integer sellerId, String sellerUserName, Integer buyerId, String buyerUserName,
-											Date createTime, Date dealTime, Date finishTime, String state, String title, String introduce,
-											Integer price, List<String> imagePaths, String mainLabel, List<String> subLabel) {
-		this.id = id;
-		this.sellerId = sellerId;
-		this.buyerId = buyerId;
-		this.createTime = createTime;
-		this.dealTime = dealTime;
-		this.finishTime = finishTime;
-		this.state = state;
-		this.title = title;
-		this.introduce = introduce;
-		this.price = price;
-		this.imagePaths = imagePaths;
-		this.mainLabel = mainLabel;
-		this.subLabel = subLabel;
-	}
+	String commit;
+	Integer credit;
 
 	public Integer getId() {
 		return id;
@@ -141,5 +123,21 @@ public class AdminOrderVO {
 
 	public void setSubLabel(List<String> subLabel) {
 		this.subLabel = subLabel;
+	}
+
+	public String getCommit() {
+		return commit;
+	}
+
+	public void setCommit(String commit) {
+		this.commit = commit;
+	}
+
+	public Integer getCredit() {
+		return credit;
+	}
+
+	public void setCredit(Integer credit) {
+		this.credit = credit;
 	}
 }
