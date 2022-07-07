@@ -14,11 +14,7 @@ public class UserDAO {
 	String password;
 	String salt;
 	Date registerTime;
-<<<<<<< HEAD
 	Date unBanTime;
-=======
-	Date unbanTime;
->>>>>>> 227a48950d2a207f3f42be279ca08b7df756f3c4
 	Integer sex;
 	String nickName;
 	String introduction;
@@ -43,7 +39,7 @@ public class UserDAO {
 		this.password = password;
 		this.salt = salt;
 		this.registerTime = registerTime;
-		this.unbanTime = unBanTime;
+		this.unBanTime = unBanTime;
 		this.sex = sex;
 		this.nickName = nickName;
 		this.introduction = introduction;
@@ -99,19 +95,11 @@ public class UserDAO {
 	}
 
 	public Date getUnBanTime() {
-<<<<<<< HEAD
 		return unBanTime;
 	}
 
 	public void setUnBanTime(Date unBanTime) {
 		this.unBanTime = unBanTime;
-=======
-		return unbanTime;
-	}
-
-	public void setUnBanTime(Date unBanTime) {
-		this.unbanTime = unBanTime;
->>>>>>> 227a48950d2a207f3f42be279ca08b7df756f3c4
 	}
 
 	public Integer getSex() {
