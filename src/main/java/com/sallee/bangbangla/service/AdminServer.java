@@ -39,13 +39,6 @@ public interface AdminServer {
   public boolean removeItem(Integer itemId);
 
   /**
-   * 查看指定用户名的详细信息
-   * @param userName
-   * @return 管理员视图显示的用户
-   */
-  public AdminUserVO selectUserWithName(String userName);
-
-  /**
    * 查看指定Id的用户的详细信息
    * @param userId
    * @return 管理员视图显示的用户
@@ -70,7 +63,7 @@ public interface AdminServer {
    * 查看所有举报列表
    * @return 管理员视图显示的举报列表
    */
-  public AdminReportVO selectAllReport();
+  public List<AdminReportVO> selectAllReport();
 
   /**
    * 移除举报（已受理）
@@ -83,5 +76,5 @@ public interface AdminServer {
    * 显示所有被封禁的用户
    * @return 被封禁的用户列表
    */
-  public BanDAO selectAllBan();
+  public List<BanDAO> selectAllBan();
 }

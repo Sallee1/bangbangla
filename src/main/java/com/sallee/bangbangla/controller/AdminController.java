@@ -1,10 +1,13 @@
 package com.sallee.bangbangla.controller;
 
 
+import com.sallee.bangbangla.pojo.DAO.BanDAO;
 import com.sallee.bangbangla.pojo.DTO.BanUserDTO;
 import com.sallee.bangbangla.pojo.DTO.LoginDTO;
 import com.sallee.bangbangla.pojo.ServerResult;
 import com.sallee.bangbangla.pojo.VO.AdminOrderVO;
+import com.sallee.bangbangla.pojo.VO.AdminReportVO;
+import com.sallee.bangbangla.pojo.VO.AdminUserVO;
 import com.sallee.bangbangla.service.AdminServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -43,43 +46,37 @@ public class AdminController {
 		return new ServerResult(0,"删除成功",isSuccess);
 	}
 
-	@RequestMapping("/admin/username")
-	public ServerResult selectUserWithName(String userName) {
-
-		return null;
-	}
-
 	@RequestMapping("/admin/userid")
 	public ServerResult selectUserWithId(String userId) {
-
-		return null;
+		AdminUserVO userVO = adminServer.selectUserWithId(userId);
+		return new ServerResult(0,"查找成功",userVO);
 	}
 
 	@RequestMapping("/admin/allUser")
 	public ServerResult selectAllUser() {
-
-		return null;
+		List<AdminUserVO> adminUserVOList = adminServer.selectAllUser();
+		return new ServerResult(0,"查找成功",adminUserVOList);
 	}
 
 	@RequestMapping("/admin/ban")
 	public ServerResult banId(BanUserDTO banUserDTO) {
-
-		return null;
+		boolean isSuccess = adminServer.banId(banUserDTO);
+		return new ServerResult(0,"封禁成功",isSuccess);
 	}
 
 	@RequestMapping("/admin/allReport")
 	public ServerResult selectAllReport() {
-
-		return null;
+		List<AdminReportVO> adminReportVOList = adminServer.selectAllReport();
+		return new ServerResult(0,"查找成功",adminReportVOList);
 	}
 	@RequestMapping("/admin/removeReport")
 	public ServerResult removeReport(Integer reportId) {
-
-		return null;
+		boolean isSuccess = adminServer.removeReport(reportId);
+		return new ServerResult(0,"删除成功",isSuccess);
 	}
 	@RequestMapping("/admin/allBan")
 	public ServerResult selectAllBan() {
-
-		return null;
+		List<BanDAO> banDAOList = adminServer.selectAllBan();
+		return new ServerResult(0,"查找成功",banDAOList);
 	}
 }

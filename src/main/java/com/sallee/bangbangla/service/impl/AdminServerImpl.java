@@ -6,16 +6,17 @@ import com.sallee.bangbangla.mapper.*;
 import com.sallee.bangbangla.pojo.DAO.*;
 import com.sallee.bangbangla.pojo.DTO.BanUserDTO;
 import com.sallee.bangbangla.pojo.DTO.LoginDTO;
+import com.sallee.bangbangla.pojo.Enum;
 import com.sallee.bangbangla.pojo.VO.AdminOrderVO;
 import com.sallee.bangbangla.pojo.VO.AdminReportVO;
 import com.sallee.bangbangla.pojo.VO.AdminUserVO;
 import com.sallee.bangbangla.service.AdminServer;
-import com.sallee.bangbangla.pojo.Enum;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -33,6 +34,8 @@ public class AdminServerImpl implements AdminServer {
 	@Autowired
 	public BanMapper banMapper;
 	@Autowired
+	public ReportMapper reportMapper;
+	@Autowired
 	public UserItemRelateMapper userItemRelateMapper;
 	@Autowired
 	public UserItemRelateHistoryMapper userItemRelateHistoryMapper;
@@ -44,7 +47,7 @@ public class AdminServerImpl implements AdminServer {
 		QueryWrapper queryWrapper = new QueryWrapper();
 		queryWrapper.eq("user_name",loginDTO.getUserName());
 		AdminDAO admin = adminMapper.selectOne(queryWrapper);
-		if(admin == null)throw new RuntimeException("ADMIN_USER_NOT_EXIST");
+		if(admin == null)throw new RuntimeException("ADMIN_NOT_EXIST");
 
 		if(admin.getPassword().equals(StaticTool.getSHA256(loginDTO.getPassword()+admin.getSalt())))
 			return  admin.getId();
@@ -67,7 +70,7 @@ public class AdminServerImpl implements AdminServer {
 			hisItemQueryWrapper.eq("id",itemId);
 
 			hisItem = orderHistoryMapper.selectOne(hisItemQueryWrapper);
-			if(hisItem == null) throw new RuntimeException("ADMIN_ITEM_NOT_EXIST");
+			if(hisItem == null) throw new RuntimeException("ITEM_NOT_EXIST");
 			isOld = true;
 		}
 
@@ -85,15 +88,11 @@ public class AdminServerImpl implements AdminServer {
 		List<OrderHistoryDAO> orderHistoryDAOS = orderHistoryMapper.selectList(null);
 		//复制到AdminOrderVO
 		List<AdminOrderVO> adminOrderVOList = new ArrayList<>();
-		for(ItemDAO item:items) {
-			AdminOrderVO adminOrderVO = new AdminOrderVO(item,orderMapper);
-			adminOrderVOList.add(adminOrderVO);
-		}
-		for(OrderHistoryDAO hisItems:orderHistoryDAOS)
-		{
-			AdminOrderVO adminOrderVO = new AdminOrderVO(hisItems);
-			adminOrderVOList.add(adminOrderVO);
-		}
+		for (ItemDAO item : items)
+			adminOrderVOList.add(new AdminOrderVO(item, orderMapper));
+		for (OrderHistoryDAO hisItems : orderHistoryDAOS)
+			adminOrderVOList.add(new AdminOrderVO(hisItems));
+
 		return adminOrderVOList;
 	}
 
@@ -114,7 +113,7 @@ public class AdminServerImpl implements AdminServer {
 			hisItemQueryWrapper.eq("id",itemId);
 
 			hisItem = orderHistoryMapper.selectOne(hisItemQueryWrapper);
-			if(hisItem == null) throw new RuntimeException("ADMIN_ITEM_NOT_EXIST");
+			if(hisItem == null) throw new RuntimeException("ITEM_NOT_EXIST");
 			isOld = true;
 		}
 
@@ -138,37 +137,82 @@ public class AdminServerImpl implements AdminServer {
 	}
 
 	@Override
-	public AdminUserVO selectUserWithName(String userName) {
-		return null;
-	}
-
-	@Override
 	public AdminUserVO selectUserWithId(String userId) {
-		return null;
+		QueryWrapper queryWrapper = new QueryWrapper();
+		queryWrapper.eq("id",userId);
+		UserDAO userDAO = userMapper.selectOne(queryWrapper);
+		if(userDAO == null) throw new RuntimeException("USER_NOT_EXIST");
+		return new AdminUserVO(userDAO);
 	}
 
 	@Override
 	public List<AdminUserVO> selectAllUser() {
-		return null;
+		List<UserDAO> userDAOList = userMapper.selectList(null);
+
+		List<AdminUserVO> adminUserVOList = new ArrayList<>();
+		for(UserDAO user:userDAOList)
+			adminUserVOList.add(new AdminUserVO(user));
+
+		return adminUserVOList;
 	}
 
 	@Override
 	public boolean banId(BanUserDTO banUserDTO) {
-		return false;
+		//检测用户是否存在
+		QueryWrapper userQueryWrapper = new QueryWrapper();
+		userQueryWrapper.eq("id",banUserDTO.getBanId());
+		UserDAO user = userMapper.selectOne(userQueryWrapper);
+		if(user == null) throw new RuntimeException("USER_NOT_EXIST");
+
+		//检测封神榜里有没有用户
+		QueryWrapper banQueryWrapper = new QueryWrapper();
+		banQueryWrapper.eq("ban_id",banUserDTO.getBanId());
+		BanDAO banDAO = banMapper.selectOne(banQueryWrapper);
+		if(banDAO != null) throw new RuntimeException("USER_ALREADY_BAN");
+
+		//填写解封日期
+		//利用Calendar计算日期
+		Calendar today = Calendar.getInstance();
+		Calendar unbanDay = (Calendar)today.clone();
+		unbanDay.add(Calendar.DATE,banUserDTO.getDayLen());
+		user.setUnBanTime(unbanDay.getTime());
+
+		//写入封神榜
+		banDAO = new BanDAO();
+		BeanUtils.copyProperties(banUserDTO,banDAO);
+		banDAO.setBanType(Enum.BanType.USER.ordinal());
+		banDAO.setStartTime(today.getTime());
+		banDAO.setEndTime(unbanDay.getTime());
+
+		//写入数据库
+		banMapper.insert(banDAO);
+		userMapper.update(user,userQueryWrapper);
+		return true;
 	}
 
 	@Override
-	public AdminReportVO selectAllReport() {
-		return null;
+	public List<AdminReportVO> selectAllReport() {
+		List<ReportDAO> reportDAO = reportMapper.selectList(null);
+
+		List<AdminReportVO> adminReportVOList = new ArrayList<>();
+		for(ReportDAO report:reportDAO)
+			adminReportVOList.add(new AdminReportVO(report));
+		return adminReportVOList;
 	}
 
 	@Override
 	public boolean removeReport(Integer reportId) {
-		return false;
+		QueryWrapper reportQueryWrapper = new QueryWrapper();
+		reportQueryWrapper.eq("id",reportId);
+		ReportDAO report = reportMapper.selectOne(reportQueryWrapper);
+		if(report == null)throw new RuntimeException("REPORT_NOT_EXIST");
+
+		reportMapper.delete(reportQueryWrapper);
+		return true;
 	}
 
 	@Override
-	public BanDAO selectAllBan() {
-		return null;
+	public List<BanDAO> selectAllBan() {
+		return banMapper.selectList(null);
 	}
 }

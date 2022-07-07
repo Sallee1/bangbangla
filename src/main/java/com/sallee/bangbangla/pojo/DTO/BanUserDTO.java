@@ -1,32 +1,50 @@
 package com.sallee.bangbangla.pojo.DTO;
 
-
-import java.util.Date;
-
 public class BanUserDTO {
-	Integer userId;
-	Date timeLen;
-
+	Integer banId;
+	Integer dayLen;
+	Integer opId;
+	String result;
+	
 	public BanUserDTO(){}
 
-	public BanUserDTO(Integer userId, Date timeLen) {
-		this.userId = userId;
-		this.timeLen = timeLen;
+	public BanUserDTO(Integer userId, Integer dayLen, Integer opId, String result) {
+		this.banId = userId;
+		this.dayLen = dayLen;
+		this.opId = opId;
+		this.result = result;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public Integer getBanId() {
+		return banId;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setBanId(Integer banId) {
+		this.banId = banId;
 	}
 
-	public Date getTimeLen() {
-		return timeLen;
+	public Integer getDayLen() {
+		return dayLen;
 	}
 
-	public void setTimeLen(Date timeLen) {
-		this.timeLen = timeLen;
+
+	public void setDayLen(Integer dayLen) {
+		this.dayLen = dayLen;
+	}
+
+	public Integer getOpId() {
+		return opId;
+	}
+
+	public void setOpId(Integer opId) {
+		this.opId = opId;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
 	}
 }

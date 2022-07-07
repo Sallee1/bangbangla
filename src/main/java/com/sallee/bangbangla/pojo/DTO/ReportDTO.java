@@ -9,17 +9,15 @@ public class ReportDTO {
 	Integer itemId;
 	Date reportTime;
 	String result;
-	String state;
 
 	public ReportDTO() {}
 
-	public ReportDTO(Integer reportId, Integer beReportId, Integer itemId, Date reportTime, String result, String state) {
+	public ReportDTO(Integer reportId, Integer beReportId, Integer itemId, Date reportTime, String result) {
 		this.reportId = reportId;
 		this.beReportId = beReportId;
 		this.itemId = itemId;
 		this.reportTime = reportTime;
 		this.result = result;
-		this.state = state;
 	}
 
 	public Integer getReportId() {
@@ -60,13 +58,5 @@ public class ReportDTO {
 
 	public void setResult(String result) {
 		this.result = result;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
 	}
 }
