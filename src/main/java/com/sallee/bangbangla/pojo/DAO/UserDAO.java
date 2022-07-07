@@ -1,17 +1,24 @@
 package com.sallee.bangbangla.pojo.DAO;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.util.Date;
 
 @TableName("users")
 public class UserDAO {
+	@TableId(type=IdType.AUTO)//设置id主键的值是由数据库自动生成
 	Integer id;
 	String userName;
 	String password;
 	String salt;
 	Date registerTime;
+<<<<<<< HEAD
 	Date unBanTime;
+=======
+	Date unbanTime;
+>>>>>>> 227a48950d2a207f3f42be279ca08b7df756f3c4
 	Integer sex;
 	String nickName;
 	String introduction;
@@ -36,7 +43,7 @@ public class UserDAO {
 		this.password = password;
 		this.salt = salt;
 		this.registerTime = registerTime;
-		this.unBanTime = unBanTime;
+		this.unbanTime = unBanTime;
 		this.sex = sex;
 		this.nickName = nickName;
 		this.introduction = introduction;
@@ -92,11 +99,19 @@ public class UserDAO {
 	}
 
 	public Date getUnBanTime() {
+<<<<<<< HEAD
 		return unBanTime;
 	}
 
 	public void setUnBanTime(Date unBanTime) {
 		this.unBanTime = unBanTime;
+=======
+		return unbanTime;
+	}
+
+	public void setUnBanTime(Date unBanTime) {
+		this.unbanTime = unBanTime;
+>>>>>>> 227a48950d2a207f3f42be279ca08b7df756f3c4
 	}
 
 	public Integer getSex() {
