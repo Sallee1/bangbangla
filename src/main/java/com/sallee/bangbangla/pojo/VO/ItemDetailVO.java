@@ -1,13 +1,14 @@
 package com.sallee.bangbangla.pojo.VO;
 
 
+import java.util.Date;
 import java.util.List;
 
 public class ItemDetailVO {
 	Integer itemId;
 	String sellerNickName;
 	Float sellerCredit;
-	Long createTime;
+	Date createTime;
 	String title;
 	String introduce;
 	Integer price;
@@ -19,7 +20,7 @@ public class ItemDetailVO {
 
 	public ItemDetailVO() {}
 
-	public ItemDetailVO(Integer itemId, String sellerNickName, Float sellerCredit, Long createTime, String title,
+	public ItemDetailVO(Integer itemId, String sellerNickName, Float sellerCredit, Date createTime, String title,
 											String introduce, Integer price, List<String> imagePaths, String mainLable, List<String> subLabel,
 											Integer want_count, Integer view_count) {
 		this.itemId = itemId;
@@ -60,11 +61,11 @@ public class ItemDetailVO {
 		this.sellerCredit = sellerCredit;
 	}
 
-	public Long getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 

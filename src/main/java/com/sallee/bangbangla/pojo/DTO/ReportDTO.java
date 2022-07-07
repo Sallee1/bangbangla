@@ -1,17 +1,19 @@
 package com.sallee.bangbangla.pojo.DTO;
 
 
+import java.util.Date;
+
 public class ReportDTO {
 	Integer reportId;
 	Integer beReportId;
 	Integer itemId;
-	Long reportTime;
+	Date reportTime;
 	String result;
 	String state;
 
 	public ReportDTO() {}
 
-	public ReportDTO(Integer reportId, Integer beReportId, Integer itemId, Long reportTime, String result, String state) {
+	public ReportDTO(Integer reportId, Integer beReportId, Integer itemId, Date reportTime, String result, String state) {
 		this.reportId = reportId;
 		this.beReportId = beReportId;
 		this.itemId = itemId;
@@ -44,11 +46,11 @@ public class ReportDTO {
 		this.itemId = itemId;
 	}
 
-	public Long getReportTime() {
+	public Date getReportTime() {
 		return reportTime;
 	}
 
-	public void setReportTime(Long reportTime) {
+	public void setReportTime(Date reportTime) {
 		this.reportTime = reportTime;
 	}
 

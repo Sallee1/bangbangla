@@ -3,10 +3,12 @@ git add *
 git status
 Pause
 
+git commit -m $commitLog
+Pause
+
 git pull origin master
 Pause
 
-git commit -m $commitLog
 git push origin master
 Pause
 

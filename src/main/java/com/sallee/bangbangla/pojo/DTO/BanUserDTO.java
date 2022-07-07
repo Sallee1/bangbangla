@@ -1,13 +1,15 @@
 package com.sallee.bangbangla.pojo.DTO;
 
 
+import java.util.Date;
+
 public class BanUserDTO {
 	Integer userId;
-	Long timeLen;
+	Date timeLen;
 
 	public BanUserDTO(){}
 
-	public BanUserDTO(Integer userId, Long timeLen) {
+	public BanUserDTO(Integer userId, Date timeLen) {
 		this.userId = userId;
 		this.timeLen = timeLen;
 	}
@@ -20,11 +22,11 @@ public class BanUserDTO {
 		this.userId = userId;
 	}
 
-	public Long getTimeLen() {
+	public Date getTimeLen() {
 		return timeLen;
 	}
 
-	public void setTimeLen(Long timeLen) {
+	public void setTimeLen(Date timeLen) {
 		this.timeLen = timeLen;
 	}
 }

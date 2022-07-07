@@ -2,18 +2,20 @@ package com.sallee.bangbangla.pojo.DAO;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.Date;
+
 @TableName("char_list")
 public class ChatDAO {
 	Integer id;
 	Integer senderId;
 	Integer receiverId;
-	Long sendTime;
+	Date sendTime;
 	String data;
 	Integer type;
 
 	public ChatDAO(){}
 
-	public ChatDAO(Integer id, Integer senderId, Integer receiverId, Long sendTime, String data, Integer type) {
+	public ChatDAO(Integer id, Integer senderId, Integer receiverId, Date sendTime, String data, Integer type) {
 		this.id = id;
 		this.senderId = senderId;
 		this.receiverId = receiverId;
@@ -46,11 +48,11 @@ public class ChatDAO {
 		this.receiverId = receiverId;
 	}
 
-	public Long getSendTime() {
+	public Date getSendTime() {
 		return sendTime;
 	}
 
-	public void setSendTime(Long sendTime) {
+	public void setSendTime(Date sendTime) {
 		this.sendTime = sendTime;
 	}
 

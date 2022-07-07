@@ -1,10 +1,12 @@
 package com.sallee.bangbangla.pojo.VO;
 
 
+import java.util.Date;
+
 public class AdminUserVO {
 	Integer id;
 	String userName;
-	Long registerTime;
+	Date registerTime;
 	String state;
 	String sex;
 	String nickName;
@@ -21,7 +23,7 @@ public class AdminUserVO {
 
 	public AdminUserVO() {}
 
-	public AdminUserVO(Integer id, String userName, Long registerTime, String state, String sex, String nickName,
+	public AdminUserVO(Integer id, String userName, Date registerTime, String state, String sex, String nickName,
 										 String introduction, String realName, String idCard, String realTel, String universityPos,
 										 String universityName, String studentId, Integer score, Integer totalCredit, Integer creditCount) {
 		this.id = id;
@@ -58,11 +60,11 @@ public class AdminUserVO {
 		this.userName = userName;
 	}
 
-	public Long getRegisterTime() {
+	public Date getRegisterTime() {
 		return registerTime;
 	}
 
-	public void setRegisterTime(Long registerTime) {
+	public void setRegisterTime(Date registerTime) {
 		this.registerTime = registerTime;
 	}
 

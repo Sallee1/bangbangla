@@ -1,17 +1,16 @@
 package com.sallee.bangbangla.pojo.VO;
 
 
+import java.util.Date;
 import java.util.List;
 
 public class AdminOrderVO {
 	Integer id;
 	Integer sellerId;
-	String sellerUserName;
 	Integer buyerId;
-	String buyerUserName;
-	Long createTime;
-	Long dealTime;
-	Long finishTime;
+	Date createTime;
+	Date dealTime;
+	Date finishTime;
 	String state;
 	String title;
 	String introduce;
@@ -23,13 +22,11 @@ public class AdminOrderVO {
 	public AdminOrderVO() {}
 
 	public AdminOrderVO(Integer id, Integer sellerId, String sellerUserName, Integer buyerId, String buyerUserName,
-											Long createTime, Long dealTime, Long finishTime, String state, String title, String introduce,
+											Date createTime, Date dealTime, Date finishTime, String state, String title, String introduce,
 											Integer price, List<String> imagePaths, String mainLabel, List<String> subLabel) {
 		this.id = id;
 		this.sellerId = sellerId;
-		this.sellerUserName = sellerUserName;
 		this.buyerId = buyerId;
-		this.buyerUserName = buyerUserName;
 		this.createTime = createTime;
 		this.dealTime = dealTime;
 		this.finishTime = finishTime;
@@ -58,14 +55,6 @@ public class AdminOrderVO {
 		this.sellerId = sellerId;
 	}
 
-	public String getSellerUserName() {
-		return sellerUserName;
-	}
-
-	public void setSellerUserName(String sellerUserName) {
-		this.sellerUserName = sellerUserName;
-	}
-
 	public Integer getBuyerId() {
 		return buyerId;
 	}
@@ -74,35 +63,27 @@ public class AdminOrderVO {
 		this.buyerId = buyerId;
 	}
 
-	public String getBuyerUserName() {
-		return buyerUserName;
-	}
-
-	public void setBuyerUserName(String buyerUserName) {
-		this.buyerUserName = buyerUserName;
-	}
-
-	public Long getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 
-	public Long getDealTime() {
+	public Date getDealTime() {
 		return dealTime;
 	}
 
-	public void setDealTime(Long dealTime) {
+	public void setDealTime(Date dealTime) {
 		this.dealTime = dealTime;
 	}
 
-	public Long getFinishTime() {
+	public Date getFinishTime() {
 		return finishTime;
 	}
 
-	public void setFinishTime(Long finishTime) {
+	public void setFinishTime(Date finishTime) {
 		this.finishTime = finishTime;
 	}
 

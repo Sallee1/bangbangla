@@ -1,12 +1,13 @@
 package com.sallee.bangbangla.pojo.VO;
 
 
+import java.util.Date;
 import java.util.List;
 
 public class OrderLogDetailVO {
 	Integer orderId;
 	String title;
-	Long createTime;
+	Date createTime;
 	Integer score;
 	String mainLabel;
 	List<String> subLabel;
@@ -18,7 +19,7 @@ public class OrderLogDetailVO {
 	public OrderLogDetailVO() {
 	}
 
-	public OrderLogDetailVO(Integer orderId, String title, Long createTime, Integer score, String mainLabel,
+	public OrderLogDetailVO(Integer orderId, String title, Date createTime, Integer score, String mainLabel,
 													List<String> subLabel, String introduce, Integer payState, String state,
 													List<UserCreditVO> wantList) {
 		this.orderId = orderId;
@@ -49,11 +50,11 @@ public class OrderLogDetailVO {
 		this.title = title;
 	}
 
-	public Long getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 
