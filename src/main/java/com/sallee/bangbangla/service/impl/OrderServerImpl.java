@@ -19,7 +19,6 @@ public class OrderServerImpl implements OrderServer {
 	public ItemMapper itemMapper;
 	@Autowired
 	public UserItemRelateMapper userItemRelateMapper;
-
 	@Autowired
 	public OrderMapper orderMapper;
 	@Autowired
@@ -128,7 +127,7 @@ public class OrderServerImpl implements OrderServer {
 			throw new RuntimeException("USER_UPDATE_FAIL");
 		}
 
-		//将订单移入Order_History表		
+		//将订单移入Order_History表
 		OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
 		BeanUtils.copyProperties(orderDAO,orderHistoryDAO);
 
