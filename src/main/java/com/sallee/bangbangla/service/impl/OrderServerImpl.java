@@ -19,7 +19,6 @@ public class OrderServerImpl implements OrderServer {
 	public ItemMapper itemMapper;
 	@Autowired
 	public UserItemRelateMapper userItemRelateMapper;
-
 	@Autowired
 	public OrderMapper orderMapper;
 	@Autowired
@@ -107,14 +106,14 @@ public class OrderServerImpl implements OrderServer {
 
 	@Override
 	public boolean finishOrder(Integer orderId) {
-		OrderDAO orderDAO = new OrderDAO();
+		OrderDAO orderDAO = orderMapper.selectById(orderId);
 		Integer itemId = orderDAO.getItemId();
 		ItemDAO itemDAO = itemMapper.selectById(itemId);
 
 		//查找收钱人的信息
 
 		Integer bePayerId;
-		if(itemDAO.getState() == 0){
+		if(itemDAO.getState() == 1){
 			bePayerId = itemDAO.getSellerId();
 
 		}else {
@@ -128,7 +127,7 @@ public class OrderServerImpl implements OrderServer {
 			throw new RuntimeException("USER_UPDATE_FAIL");
 		}
 
-		//将订单移入Order_History表		
+		//将订单移入Order_History表
 		OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
 		BeanUtils.copyProperties(orderDAO,orderHistoryDAO);
 
@@ -162,7 +161,7 @@ public class OrderServerImpl implements OrderServer {
 
 	@Override
 	public boolean moveToHistory(Integer orderId) {
-		OrderDAO orderDAO = new OrderDAO();
+		OrderDAO orderDAO = orderMapper.selectById(orderId);
 		Integer itemId = orderDAO.getItemId();
 		ItemDAO itemDAO = itemMapper.selectById(itemId);
 

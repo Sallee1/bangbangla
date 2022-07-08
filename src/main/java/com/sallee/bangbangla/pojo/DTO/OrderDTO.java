@@ -1,19 +1,10 @@
 package com.sallee.bangbangla.pojo.DTO;
 
 public class OrderDTO {
+
     Integer itemId;
-    Integer sellerId;
     Integer buyerId;
 
-    
-
-    public Integer getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(Integer sellerId) {
-        this.sellerId = sellerId;
-    }
 
     public Integer getBuyerId() {
         return buyerId;

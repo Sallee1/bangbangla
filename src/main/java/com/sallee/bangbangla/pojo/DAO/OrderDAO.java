@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-@TableName("order")
+@TableName("orders")
 public class OrderDAO {
 	@TableId(type = IdType.AUTO)
 	Integer id;
