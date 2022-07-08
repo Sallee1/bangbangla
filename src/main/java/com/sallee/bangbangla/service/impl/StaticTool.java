@@ -1,9 +1,13 @@
 package com.sallee.bangbangla.service.impl;
 
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Date;
+import java.util.List;
 
 public class StaticTool {
   public static String getSHA256(String str) {
@@ -45,4 +49,14 @@ public class StaticTool {
     return salt.toString();
   }
 
+  public static String date2String(Date date)
+  {
+    String res = String.format("%tF%n",date);
+    return res;
+  }
+
+  public static String list2Json(List<String> list)
+  {
+    
+  }
 }
