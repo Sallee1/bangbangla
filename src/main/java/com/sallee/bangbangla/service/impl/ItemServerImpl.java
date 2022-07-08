@@ -90,6 +90,7 @@ public class ItemServerImpl implements ItemServer {
 	}
 
 	@Override
+
 	public List<ItemVO> selectItemsWithKey(UserBriefInfoDTO userBriefInfoDTO, String key) {
 		QueryWrapper userQueryWrapper = new QueryWrapper();
 		userQueryWrapper.eq("university_name",userBriefInfoDTO.getUniversityName());
@@ -103,13 +104,9 @@ public class ItemServerImpl implements ItemServer {
 
 			List<ItemDAO> itemDAO1 = itemMapper.selectList(queryWrapper);
 
-			}
-
 			if(itemDAO1 == null){
 				continue;
 			}
-
-
 
 			for(ItemDAO itemDAO:itemDAO1){
 
@@ -148,6 +145,7 @@ public class ItemServerImpl implements ItemServer {
 
 		return itemVoList;
 	}
+
 
 	@Override
 	public ItemDetailVO showItemDetail(Integer itemId) {
