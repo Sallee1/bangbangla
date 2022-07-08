@@ -24,31 +24,8 @@ public class OrderHistoryDAO {
 	Integer mainLabel;
 	List<String> subLabel;
 	String commit;
-
 	Integer credit;
 
-	public OrderHistoryDAO(){}
-
-	public OrderHistoryDAO(Integer id, Integer sellerId, Integer buyerId, Date createTime, Date dealTime, Date finishTime,
-												 Integer state, Integer payState, String title, String introduce, Integer price, List<String> imagePaths,
-												 Integer mainLabel, List<String> subLabel, String commit,int credit) {
-		this.id = id;
-		this.sellerId = sellerId;
-		this.buyerId = buyerId;
-		this.createTime = createTime;
-		this.dealTime = dealTime;
-		this.finishTime = finishTime;
-		this.state = state;
-		this.payState = payState;
-		this.title = title;
-		this.introduce = introduce;
-		this.price = price;
-		this.imagePaths = imagePaths;
-		this.mainLabel = mainLabel;
-		this.subLabel = subLabel;
-		this.commit = commit;
-		this.credit = credit;
-	}
 
 	public Integer getId() {
 		return id;
