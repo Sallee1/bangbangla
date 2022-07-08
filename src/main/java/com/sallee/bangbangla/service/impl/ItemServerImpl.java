@@ -2,6 +2,7 @@ package com.sallee.bangbangla.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.injector.methods.SelectCount;
 import com.sallee.bangbangla.mapper.ItemMapper;
 import com.sallee.bangbangla.mapper.UserMapper;
 import com.sallee.bangbangla.pojo.DAO.ItemDAO;
@@ -9,18 +10,20 @@ import com.sallee.bangbangla.pojo.DAO.UserDAO;
 import com.sallee.bangbangla.pojo.DTO.ItemEditDTO;
 import com.sallee.bangbangla.pojo.DTO.UserBriefInfoDTO;
 import com.sallee.bangbangla.pojo.Enum;
+import com.sallee.bangbangla.pojo.VO.AdminUserVO;
 import com.sallee.bangbangla.pojo.VO.ItemDetailVO;
 import com.sallee.bangbangla.pojo.VO.ItemVO;
 import com.sallee.bangbangla.pojo.DTO.CreateItemDTO;
+import com.sallee.bangbangla.service.AdminServer;
 import com.sallee.bangbangla.service.ItemServer;
+import org.apache.catalina.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import javax.swing.text.rtf.RTFEditorKit;
+import java.util.*;
 
 @Service
 public class ItemServerImpl implements ItemServer {
@@ -28,6 +31,9 @@ public class ItemServerImpl implements ItemServer {
 	public ItemMapper itemMapper;
 	@Autowired
 	public UserMapper userMapper;
+
+	@Autowired
+	public AdminServer adminServer;
 
 //	Integer itemId;
 //	String sellerNickName;
@@ -44,108 +50,60 @@ public class ItemServerImpl implements ItemServer {
 
 	@Override
 	public List<ItemVO> selectAllItems(UserBriefInfoDTO userBriefInfoDTO) {
-		QueryWrapper userQueryWrapper = new QueryWrapper();
-		userQueryWrapper.eq("university_name",userBriefInfoDTO.getUniversityName());
+		List<ItemDAO> itemDAOS = itemMapper.selectList(null);
 
-		List<UserDAO> userscholList = userMapper.selectList(userQueryWrapper);
-
-		ArrayList<ItemVO> itemVoList = new ArrayList<>();
-		for(UserDAO userDAO:userscholList){
-			QueryWrapper queryWrapper = new QueryWrapper();
-			queryWrapper.eq("seller_id",userDAO.getId());
-
-			List<ItemDAO> itemDAO1 = itemMapper.selectList(queryWrapper);
-
-
-
-			if(itemDAO1 == null){
-				continue;
-			}
-
-			for(ItemDAO itemDAO:itemDAO1){
-
-				Float a;
-				if(userDAO.getCreditCount()==0)
-					a= Float.valueOf(0);
-				else
-			        a = new Float(userDAO.getTotalCredit()/userDAO.getCreditCount());
-
-				ItemVO itemVO = new ItemVO();
-			    itemVO.setItemId(itemDAO.getId());
-			    itemVO.setSellerNickName(userDAO.getNickName());
-			    itemVO.setSellerCredit(a);
-			    itemVO.setCreateTime(itemDAO.getCreateTime());
-			    itemVO.setTitle(itemDAO.getTitle());
-			    itemVO.setPrice(itemDAO.getPrice());
-			    itemVO.setImagePath(itemDAO.getImagePaths());
-			    itemVO.setMainLabel(Enum.MainLabel.values()[itemDAO.getMainLabel()].toString());
-			    itemVO.setSubLabel(itemDAO.getSubLabel());
-			    itemVO.setWant_count(itemDAO.getWantCount());
-			    itemVO.setView_count(itemDAO.getViewCount());
-
-			    itemVoList.add(itemVO);}
+		//输出匹配结果
+		List<ItemVO> itemVOS = new ArrayList<>();
+		for (ItemDAO item : itemDAOS) {
+			ItemVO temp = new ItemVO();
+			//设置参数
+			temp.setItemId(item.getId());
+			AdminUserVO adminUserVO = adminServer.selectUserWithId(item.getSellerId());
+			temp.setSellerNickName(adminUserVO.getNickName());
+			temp.setSellerCredit(adminUserVO.getTotalCredit().floatValue() / adminUserVO.getCreditCount());
+			temp.setTitle(item.getTitle());
+			temp.setPrice(item.getPrice());
+			temp.setCreateTime(StaticTool.date2String(item.getCreateTime()));
+			temp.setImagePath(item.getImagePaths());
+			temp.setMainLabel(Enum.MainLabel.values()[item.getMainLabel()].toString());
+			temp.setSubLabel(item.getSubLabel());
+			temp.setWant_count(item.getWantCount());
+			temp.setView_count(item.getViewCount());
+			itemVOS.add(temp);
 		}
-
-		return itemVoList;
+		return itemVOS;
 	}
 
 	@Override
-
 	public List<ItemVO> selectItemsWithKey(UserBriefInfoDTO userBriefInfoDTO, String key) {
-		QueryWrapper userQueryWrapper = new QueryWrapper();
-		userQueryWrapper.eq("university_name",userBriefInfoDTO.getUniversityName());
+		//筛选key
+		QueryWrapper keyQueryWrapper = new QueryWrapper();
+		keyQueryWrapper.like("title",key);
+		keyQueryWrapper.or();
+		keyQueryWrapper.like("sub_label",key);
 
-		List<UserDAO> userscholList = userMapper.selectList(userQueryWrapper);
-
-		ArrayList<ItemVO> itemVoList = new ArrayList<>();
-		for(UserDAO userDAO:userscholList){
-			QueryWrapper queryWrapper = new QueryWrapper();
-			queryWrapper.eq("seller_id",userDAO.getId());
-
-			List<ItemDAO> itemDAO1 = itemMapper.selectList(queryWrapper);
-
-			if(itemDAO1 == null){
-				continue;
-			}
-
-			for(ItemDAO itemDAO:itemDAO1){
-
-				if(itemDAO.getSubLabel() == null)
-					continue;
-
-				Integer count=0 ;
-				for(String key0:itemDAO.getSubLabel()){
-					if(key.matches(key0))
-						count = count + 1;
-				}
-				if(count == 0 &&!key.matches(itemDAO.getTitle()))
-					continue;
-
-				Float a;
-				if(userDAO.getCreditCount()==0)
-					a= Float.valueOf(0);
-				else
-					a = new Float(userDAO.getTotalCredit()/userDAO.getCreditCount());
-
-				ItemVO itemVO = new ItemVO();
-				itemVO.setItemId(itemDAO.getId());
-				itemVO.setSellerNickName(userDAO.getNickName());
-				itemVO.setSellerCredit(a);
-				itemVO.setCreateTime(itemDAO.getCreateTime());
-				itemVO.setTitle(itemDAO.getTitle());
-				itemVO.setPrice(itemDAO.getPrice());
-				itemVO.setImagePath(itemDAO.getImagePaths());
-				itemVO.setMainLabel(Enum.MainLabel.values()[itemDAO.getMainLabel()].toString());
-				itemVO.setSubLabel(itemDAO.getSubLabel());
-				itemVO.setWant_count(itemDAO.getWantCount());
-				itemVO.setView_count(itemDAO.getViewCount());
-
-				itemVoList.add(itemVO);}
+		List<ItemDAO> itemDAOS = itemMapper.selectList(keyQueryWrapper);
+		//输出匹配结果
+		List<ItemVO> itemVOS = new ArrayList<>();
+		for(ItemDAO item:itemDAOS) {
+			ItemVO temp = new ItemVO();
+			//设置参数
+			temp.setItemId(item.getId());
+			AdminUserVO adminUserVO = adminServer.selectUserWithId(item.getSellerId());
+			temp.setSellerNickName(adminUserVO.getNickName());
+			temp.setSellerCredit(adminUserVO.getTotalCredit().floatValue()/adminUserVO.getCreditCount());
+			temp.setTitle(item.getTitle());
+			temp.setPrice(item.getPrice());
+			temp.setCreateTime(StaticTool.date2String(item.getCreateTime()));
+			temp.setImagePath(item.getImagePaths());
+			temp.setMainLabel(Enum.MainLabel.values()[item.getMainLabel()].toString());
+			temp.setSubLabel(item.getSubLabel());
+			temp.setWant_count(item.getWantCount());
+			temp.setView_count(item.getViewCount());
+			itemVOS.add(temp);
 		}
-
-		return itemVoList;
+		return itemVOS;
 	}
-
 
 	@Override
 	public ItemDetailVO showItemDetail(Integer itemId) {
@@ -166,7 +124,7 @@ public class ItemServerImpl implements ItemServer {
 		itemDetailVO.setItemId(itemDAO.getId());
 		itemDetailVO.setSellerNickName(userDAO.getNickName());
 		itemDetailVO.setSellerCredit(a);
-		itemDetailVO.setCreateTime(itemDAO.getCreateTime());
+		itemDetailVO.setCreateTime(StaticTool.date2String(itemDAO.getCreateTime()));
 		itemDetailVO.setTitle(itemDAO.getTitle());
 		itemDetailVO.setPrice(itemDAO.getPrice());
 		itemDetailVO.setIntroduce(itemDAO.getIntroduce());
@@ -201,10 +159,9 @@ public class ItemServerImpl implements ItemServer {
 		queryWrapper.eq("id",itemEditDTO.getItemId());
 
 		ItemDAO itemDAO = new ItemDAO();
-		itemDAO.setCredit(itemEditDTO.getScore());
+		itemDAO.setPrice(itemEditDTO.getScore());
 
 		int Row = itemMapper.update(itemDAO,queryWrapper);
-
 
 		return Row>=1?true:false;
 	}
@@ -216,6 +173,7 @@ public class ItemServerImpl implements ItemServer {
 
 		ItemDAO itemDAO = itemMapper.selectOne(queryWrapper);
 		itemDAO.setViewCount(itemDAO.getViewCount()+1);
+		itemMapper.update(itemDAO,queryWrapper);
 		return true;
 	}
 }

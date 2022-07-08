@@ -51,7 +51,7 @@ public class StaticTool {
 
   public static String date2String(Date date)
   {
-    String res = String.format("%tF%n",date);
+    String res = String.format("%tF",date);
     return res;
   }
 }

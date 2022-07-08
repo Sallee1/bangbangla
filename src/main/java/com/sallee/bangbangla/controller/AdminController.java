@@ -47,7 +47,7 @@ public class AdminController {
 	}
 
 	@RequestMapping("/admin/userid")
-	public ServerResult selectUserWithId(String userId) {
+	public ServerResult selectUserWithId(Integer userId) {
 		AdminUserVO userVO = adminServer.selectUserWithId(userId);
 		return new ServerResult(0,"查找成功",userVO);
 	}

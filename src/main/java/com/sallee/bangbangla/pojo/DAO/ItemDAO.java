@@ -21,9 +21,9 @@ public class ItemDAO {
 	String title;
 	String introduce;
 	Integer price;
-	List<String> imagePaths;
+	String imagePaths;
 	Integer mainLabel;
-	List<String> subLabel;
+	String subLabel;
 	Integer wantCount;
 	Integer viewCount;
 	String commit;
@@ -32,8 +32,8 @@ public class ItemDAO {
 	public ItemDAO(){}
 
 	public ItemDAO(Integer id, Integer sellerId, Integer buyerId, Date createTime, Date dealTime, Date finishTime,
-								 Integer state, Integer payState, String title, String introduce, Integer price, List<String> imagePaths,
-								 Integer mainLabel, List<String> subLabel, Integer wantCount, Integer viewCount, String commit, Integer credit) {
+								 Integer state, Integer payState, String title, String introduce, Integer price, String imagePaths,
+								 Integer mainLabel, String subLabel, Integer wantCount, Integer viewCount, String commit, Integer credit) {
 		this.id = id;
 		this.sellerId = sellerId;
 		this.buyerId = buyerId;
@@ -158,11 +158,11 @@ public class ItemDAO {
 		this.price = price;
 	}
 
-	public List<String> getImagePaths() {
+	public String getImagePaths() {
 		return imagePaths;
 	}
 
-	public void setImagePaths(List<String> imagePaths) {
+	public void setImagePaths(String imagePaths) {
 		this.imagePaths = imagePaths;
 	}
 
@@ -174,11 +174,11 @@ public class ItemDAO {
 		this.mainLabel = mainLabel;
 	}
 
-	public List<String> getSubLabel() {
+	public String getSubLabel() {
 		return subLabel;
 	}
 
-	public void setSubLabel(List<String> subLabel) {
+	public void setSubLabel(String subLabel) {
 		this.subLabel = subLabel;
 	}
 

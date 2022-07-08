@@ -8,25 +8,25 @@ public class ItemDetailVO {
 	Integer itemId;
 	String sellerNickName;
 	Float sellerCredit;
-	Date createTime;
+	String createTime;
 	String title;
 	String introduce;
 	Integer price;
-	List<String> imagePaths;
+	String imagePaths;
 	String mainLable;
-	List<String> subLabel;
+	String subLabel;
 	Integer want_count;
 	Integer view_count;
 
 	public ItemDetailVO() {}
 
 	public ItemDetailVO(Integer itemId, String sellerNickName, Float sellerCredit, Date createTime, String title,
-											String introduce, Integer price, List<String> imagePaths, String mainLable, List<String> subLabel,
+											String introduce, Integer price, String imagePaths, String mainLable, String subLabel,
 											Integer want_count, Integer view_count) {
 		this.itemId = itemId;
 		this.sellerNickName = sellerNickName;
 		this.sellerCredit = sellerCredit;
-		this.createTime = createTime;
+		this.createTime = createTime.toString();
 		this.title = title;
 		this.introduce = introduce;
 		this.price = price;
@@ -61,11 +61,11 @@ public class ItemDetailVO {
 		this.sellerCredit = sellerCredit;
 	}
 
-	public Date getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 
@@ -93,11 +93,11 @@ public class ItemDetailVO {
 		this.price = price;
 	}
 
-	public List<String> getImagePaths() {
+	public String getImagePaths() {
 		return imagePaths;
 	}
 
-	public void setImagePaths(List<String> imagePaths) {
+	public void setImagePaths(String imagePaths) {
 		this.imagePaths = imagePaths;
 	}
 
@@ -109,11 +109,11 @@ public class ItemDetailVO {
 		this.mainLable = mainLable;
 	}
 
-	public List<String> getSubLabel() {
+	public String getSubLabel() {
 		return subLabel;
 	}
 
-	public void setSubLabel(List<String> subLabel) {
+	public void setSubLabel(String subLabel) {
 		this.subLabel = subLabel;
 	}
 
