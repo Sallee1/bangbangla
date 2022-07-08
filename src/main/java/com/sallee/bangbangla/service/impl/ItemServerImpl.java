@@ -54,28 +54,36 @@ public class ItemServerImpl implements ItemServer {
 			QueryWrapper queryWrapper = new QueryWrapper();
 			queryWrapper.eq("seller_id",userDAO.getId());
 
-			ItemDAO itemDAO = itemMapper.selectOne(queryWrapper);
-			ItemVO itemVO = new ItemVO();
+			List<ItemDAO> itemDAO1 = itemMapper.selectList(queryWrapper);
 
-			if(itemDAO == null){
-				break;
+
+
+			if(itemDAO1 == null){
+				continue;
 			}
 
-			Float a = new Float(userDAO.getTotalCredit()/userDAO.getCreditCount());
+			for(ItemDAO itemDAO:itemDAO1){
 
-			itemVO.setItemId(itemDAO.getId());
-			itemVO.setSellerNickName(userDAO.getNickName());
-			itemVO.setSellerCredit(a);
-			itemVO.setCreateTime(itemDAO.getCreateTime());
-			itemVO.setTitle(itemDAO.getTitle());
-			itemVO.setPrice(itemDAO.getPrice());
-			itemVO.setImagePath(itemDAO.getImagePaths());
-			itemVO.setMainLabel(Enum.MainLabel.values()[itemDAO.getMainLabel()].toString());
-			itemVO.setSubLabel(itemDAO.getSubLabel());
-			itemVO.setWant_count(itemDAO.getWantCount());
-			itemVO.setView_count(itemDAO.getViewCount());
+				Float a;
+				if(userDAO.getCreditCount()==0)
+					a= Float.valueOf(0);
+				else
+			        a = new Float(userDAO.getTotalCredit()/userDAO.getCreditCount());
 
-			itemVoList.add(itemVO);
+				ItemVO itemVO = new ItemVO();
+			    itemVO.setItemId(itemDAO.getId());
+			    itemVO.setSellerNickName(userDAO.getNickName());
+			    itemVO.setSellerCredit(a);
+			    itemVO.setCreateTime(itemDAO.getCreateTime());
+			    itemVO.setTitle(itemDAO.getTitle());
+			    itemVO.setPrice(itemDAO.getPrice());
+			    itemVO.setImagePath(itemDAO.getImagePaths());
+			    itemVO.setMainLabel(Enum.MainLabel.values()[itemDAO.getMainLabel()].toString());
+			    itemVO.setSubLabel(itemDAO.getSubLabel());
+			    itemVO.setWant_count(itemDAO.getWantCount());
+			    itemVO.setView_count(itemDAO.getViewCount());
+
+			    itemVoList.add(itemVO);}
 		}
 
 		return itemVoList;
@@ -93,36 +101,49 @@ public class ItemServerImpl implements ItemServer {
 			QueryWrapper queryWrapper = new QueryWrapper();
 			queryWrapper.eq("seller_id",userDAO.getId());
 
-			ItemDAO itemDAO = itemMapper.selectOne(queryWrapper);
-			ItemVO itemVO = new ItemVO();
+			List<ItemDAO> itemDAO1 = itemMapper.selectList(queryWrapper);
 
-			if(itemDAO == null){
+			}
+
+			if(itemDAO1 == null){
 				continue;
 			}
 
-			Integer count=0 ;
-			for(String key0:itemDAO.getSubLabel()){
-				if(key.matches(key0))
-					count = count + 1;
-			}
-			if(count == 0 &&!key.matches(itemDAO.getTitle()))
-				break;
 
-			Float a = new Float(userDAO.getTotalCredit()/userDAO.getCreditCount());
 
-			itemVO.setItemId(itemDAO.getId());
-			itemVO.setSellerNickName(userDAO.getNickName());
-			itemVO.setSellerCredit(a);
-			itemVO.setCreateTime(itemDAO.getCreateTime());
-			itemVO.setTitle(itemDAO.getTitle());
-			itemVO.setPrice(itemDAO.getPrice());
-			itemVO.setImagePath(itemDAO.getImagePaths());
-			itemVO.setMainLabel(Enum.MainLabel.values()[itemDAO.getMainLabel()].toString());
-			itemVO.setSubLabel(itemDAO.getSubLabel());
-			itemVO.setWant_count(itemDAO.getWantCount());
-			itemVO.setView_count(itemDAO.getViewCount());
+			for(ItemDAO itemDAO:itemDAO1){
 
-			itemVoList.add(itemVO);
+				if(itemDAO.getSubLabel() == null)
+					continue;
+
+				Integer count=0 ;
+				for(String key0:itemDAO.getSubLabel()){
+					if(key.matches(key0))
+						count = count + 1;
+				}
+				if(count == 0 &&!key.matches(itemDAO.getTitle()))
+					continue;
+
+				Float a;
+				if(userDAO.getCreditCount()==0)
+					a= Float.valueOf(0);
+				else
+					a = new Float(userDAO.getTotalCredit()/userDAO.getCreditCount());
+
+				ItemVO itemVO = new ItemVO();
+				itemVO.setItemId(itemDAO.getId());
+				itemVO.setSellerNickName(userDAO.getNickName());
+				itemVO.setSellerCredit(a);
+				itemVO.setCreateTime(itemDAO.getCreateTime());
+				itemVO.setTitle(itemDAO.getTitle());
+				itemVO.setPrice(itemDAO.getPrice());
+				itemVO.setImagePath(itemDAO.getImagePaths());
+				itemVO.setMainLabel(Enum.MainLabel.values()[itemDAO.getMainLabel()].toString());
+				itemVO.setSubLabel(itemDAO.getSubLabel());
+				itemVO.setWant_count(itemDAO.getWantCount());
+				itemVO.setView_count(itemDAO.getViewCount());
+
+				itemVoList.add(itemVO);}
 		}
 
 		return itemVoList;
