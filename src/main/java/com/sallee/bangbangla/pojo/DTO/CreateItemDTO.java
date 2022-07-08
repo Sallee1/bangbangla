@@ -9,14 +9,14 @@ public class CreateItemDTO {
 	String title;
 	String introduce;
 	Integer price;
-	List<Files> imageData;
+	List<String> imageData;
 	String mainLabel;
-	String subLabel;
+	List<String> subLabel;
 
 	public CreateItemDTO(){}
 
-	public CreateItemDTO(Integer sellerId, String title, String introduce, Integer price, List<Files> imageData,
-											 String mainLabel, String subLabel) {
+	public CreateItemDTO(Integer sellerId, String title, String introduce, Integer price, List<String> imageData,
+											 String mainLabel, List<String> subLabel) {
 		this.sellerId = sellerId;
 		this.title = title;
 		this.introduce = introduce;
@@ -58,11 +58,11 @@ public class CreateItemDTO {
 		this.price = price;
 	}
 
-	public List<Files> getImageData() {
+	public List<String> getImageData() {
 		return imageData;
 	}
 
-	public void setImageData(List<Files> imageData) {
+	public void setImageData(List<String> imageData) {
 		this.imageData = imageData;
 	}
 
@@ -74,11 +74,11 @@ public class CreateItemDTO {
 		this.mainLabel = mainLabel;
 	}
 
-	public String getSubLabel() {
+	public List<String> getSubLabel() {
 		return subLabel;
 	}
 
-	public void setSubLabel(String subLabel) {
+	public void setSubLabel(List<String> subLabel) {
 		this.subLabel = subLabel;
 	}
 }

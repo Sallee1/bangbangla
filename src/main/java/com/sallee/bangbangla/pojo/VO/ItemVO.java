@@ -11,7 +11,7 @@ public class ItemVO {
 	Date createTime;
 	String title;
 	Integer price;
-	String imagePath;
+	List<String> imagePath;
 	String mainLabel;
 	List<String> subLabel;
 	Integer want_count;
@@ -21,7 +21,7 @@ public class ItemVO {
 	}
 
 	public ItemVO(Integer itemId, String sellerNickName, Float sellerCredit, Date createTime, String title, Integer price,
-								String imagePath, String mainLabel, List<String> subLabel, Integer want_count, Integer view_count) {
+				  List<String> imagePath, String mainLabel, List<String> subLabel, Integer want_count, Integer view_count) {
 		this.itemId = itemId;
 		this.sellerNickName = sellerNickName;
 		this.sellerCredit = sellerCredit;
@@ -83,11 +83,12 @@ public class ItemVO {
 		this.price = price;
 	}
 
-	public String getImagePath() {
+
+	public List<String> getImagePath() {
 		return imagePath;
 	}
 
-	public void setImagePath(String imagePath) {
+	public void setImagePath(List<String> imagePath) {
 		this.imagePath = imagePath;
 	}
 

@@ -1,8 +1,10 @@
 package com.sallee.bangbangla.pojo.DAO;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-@TableName("user_item_relate_history")
+@TableName("order_history")
 public class OrderHistoryDAO {
 	Integer id;
 	Integer itemId;

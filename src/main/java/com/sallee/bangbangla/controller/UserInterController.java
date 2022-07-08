@@ -19,18 +19,31 @@ public class UserInterController {
 
 	@RequestMapping("/inter/addChat")
 	public ServerResult addChat(ChatDTO chatDTO) {
+		boolean isSuc = userInterServer.addChat(chatDTO);
+		if(isSuc)
+			return new ServerResult(0,"增加成功",null);
+		else
+			return new ServerResult(1,"添加失败",null);
 
-		return null;
+
 	}
 	@RequestMapping("/inter/addReport")
 	public ServerResult addReport(ReportDTO reportDTO) {
+		boolean isSuc = userInterServer.addReport(reportDTO);
+		if(isSuc)
+			return new ServerResult(0,"增加成功",null);
+		else
+			return new ServerResult(1,"添加失败",null);
 
-		return null;
 	}
 
 	@RequestMapping("/inter/addCommit")
 	public ServerResult addCommit(CommitDTO commitDTO) {
+		boolean isSuc = userInterServer.addCommit(commitDTO);
+		if(isSuc)
+			return new ServerResult(0,"增加成功",null);
+		else
+			return new ServerResult(1,"添加失败",null);
 
-		return null;
 	}
 }
