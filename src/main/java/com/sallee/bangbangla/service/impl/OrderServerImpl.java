@@ -4,7 +4,6 @@ package com.sallee.bangbangla.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sallee.bangbangla.mapper.*;
 import com.sallee.bangbangla.pojo.DAO.OrderDAO;
-import com.sallee.bangbangla.pojo.DAO.UserItemRelateDAO;
 import com.sallee.bangbangla.pojo.DTO.UserItemRelateDTO;
 import com.sallee.bangbangla.pojo.VO.UserCreditVO;
 import com.sallee.bangbangla.service.OrderServer;
@@ -12,7 +11,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,9 +30,9 @@ public class OrderServerImpl implements OrderServer {
 
 	@Override
 	public boolean addWant(UserItemRelateDTO userItemRelateDTO) {
-		UserItemRelateDAO userItemRelateDAO = new UserItemRelateDAO();
-		BeanUtils.copyProperties(userItemRelateDTO,userItemRelateDAO);
-		int insertRow = userItemRelateMapper.insert(userItemRelateDAO);
+		OrderDAO orderDAO = new OrderDAO();
+		BeanUtils.copyProperties(userItemRelateDTO, orderDAO);
+		int insertRow = userItemRelateMapper.insert(orderDAO);
 		if (insertRow > 0){
 			return true;
 		}

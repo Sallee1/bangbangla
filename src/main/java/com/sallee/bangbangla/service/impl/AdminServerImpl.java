@@ -63,7 +63,7 @@ public class AdminServerImpl implements AdminServer {
 		ItemDAO item = itemMapper.selectOne(itemQueryWrapper);
 
 		//如果找不到，从历史订单找
-		OrderHistoryDAO hisItem = null;
+		ItemHistoryDAO hisItem = null;
 		if(item == null)
 		{
 			QueryWrapper hisItemQueryWrapper = new QueryWrapper();
@@ -85,12 +85,12 @@ public class AdminServerImpl implements AdminServer {
 	public List<AdminOrderVO> selectAllOrder() {
 		//查询所有的订单表和历史订单表
 		List<ItemDAO> items = itemMapper.selectList(null);
-		List<OrderHistoryDAO> orderHistoryDAOS = orderHistoryMapper.selectList(null);
+		List<ItemHistoryDAO> itemHistoryDAOS = orderHistoryMapper.selectList(null);
 		//复制到AdminOrderVO
 		List<AdminOrderVO> adminOrderVOList = new ArrayList<>();
 		for (ItemDAO item : items)
 			adminOrderVOList.add(new AdminOrderVO(item, orderMapper));
-		for (OrderHistoryDAO hisItems : orderHistoryDAOS)
+		for (ItemHistoryDAO hisItems : itemHistoryDAOS)
 			adminOrderVOList.add(new AdminOrderVO(hisItems));
 
 		return adminOrderVOList;
@@ -105,7 +105,7 @@ public class AdminServerImpl implements AdminServer {
 		ItemDAO item = itemMapper.selectOne(itemQueryWrapper);
 
 		//如果找不到，从历史订单找
-		OrderHistoryDAO hisItem;
+		ItemHistoryDAO hisItem;
 		QueryWrapper hisItemQueryWrapper = null;
 		if(item == null)
 		{

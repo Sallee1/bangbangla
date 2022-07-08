@@ -2,14 +2,11 @@ package com.sallee.bangbangla.pojo.VO;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.sallee.bangbangla.mapper.OrderMapper;
 import com.sallee.bangbangla.pojo.DAO.ItemDAO;
-import com.sallee.bangbangla.pojo.DAO.OrderDAO;
-import com.sallee.bangbangla.pojo.DAO.OrderHistoryDAO;
+import com.sallee.bangbangla.pojo.DAO.ItemHistoryDAO;
 import com.sallee.bangbangla.pojo.Enum;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 
 import java.util.Date;
 import java.util.List;
@@ -37,25 +34,17 @@ public class AdminOrderVO {
 	{
 		//克隆参数
 		BeanUtils.copyProperties(itemDAO,this);
-		//填充买家Id
-		Integer id = itemDAO.getId();
-		QueryWrapper orderQueryWrapper = new QueryWrapper();
-		orderQueryWrapper.eq("item_id",id);
-		OrderDAO order = orderMapper.selectOne(orderQueryWrapper);
-		if(order != null) {
-			this.dealTime = order.getDealTime();
-			this.buyerId = order.getBuyerId();
-		}
+
 		//装载其他变量
 		this.state = Enum.OrderState.values()[itemDAO.getState()].toString();
 		this.mainLabel = Enum.MainLabel.values()[itemDAO.getMainLabel()].toString();
 	}
-	public AdminOrderVO(OrderHistoryDAO orderHistoryDAO)
+	public AdminOrderVO(ItemHistoryDAO itemHistoryDAO)
 	{
-		BeanUtils.copyProperties(orderHistoryDAO,this);
+		BeanUtils.copyProperties(itemHistoryDAO,this);
 		//装载其他变量
-		this.state = Enum.OrderState.values()[orderHistoryDAO.getState()].toString();
-		this.mainLabel = Enum.MainLabel.values()[orderHistoryDAO.getMainLabel()].toString();
+		this.state = Enum.OrderState.values()[itemHistoryDAO.getState()].toString();
+		this.mainLabel = Enum.MainLabel.values()[itemHistoryDAO.getMainLabel()].toString();
 	}
 
 	public Integer getId() {

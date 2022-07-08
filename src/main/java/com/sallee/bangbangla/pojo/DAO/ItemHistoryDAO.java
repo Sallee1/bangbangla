@@ -1,15 +1,12 @@
 package com.sallee.bangbangla.pojo.DAO;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.util.Date;
 import java.util.List;
 
-@TableName("items")
-public class ItemDAO {
-	@TableId(type = IdType.AUTO)
+@TableName("items_history")
+public class ItemHistoryDAO {
 	Integer id;
 	Integer sellerId;
 	Integer buyerId;
@@ -24,17 +21,15 @@ public class ItemDAO {
 	List<String> imagePaths;
 	Integer mainLabel;
 	List<String> subLabel;
-	Integer wantCount;
-	Integer viewCount;
 	String commit;
 
 	Integer credit;
 
-	public ItemDAO(){}
+	public ItemHistoryDAO(){}
 
-	public ItemDAO(Integer id, Integer sellerId, Integer buyerId, Date createTime, Date dealTime, Date finishTime,
-								 Integer state, Integer payState, String title, String introduce, Integer price, List<String> imagePaths,
-								 Integer mainLabel, List<String> subLabel, Integer wantCount, Integer viewCount, String commit, Integer credit) {
+	public ItemHistoryDAO(Integer id, Integer sellerId, Integer buyerId, Date createTime, Date dealTime, Date finishTime,
+												Integer state, Integer payState, String title, String introduce, Integer price, List<String> imagePaths,
+												Integer mainLabel, List<String> subLabel, String commit, int credit) {
 		this.id = id;
 		this.sellerId = sellerId;
 		this.buyerId = buyerId;
@@ -49,8 +44,6 @@ public class ItemDAO {
 		this.imagePaths = imagePaths;
 		this.mainLabel = mainLabel;
 		this.subLabel = subLabel;
-		this.wantCount = wantCount;
-		this.viewCount = viewCount;
 		this.commit = commit;
 		this.credit = credit;
 	}
@@ -65,22 +58,6 @@ public class ItemDAO {
 
 	public Integer getSellerId() {
 		return sellerId;
-	}
-
-	public Integer getWantCount() {
-		return wantCount;
-	}
-
-	public void setWantCount(Integer wantCount) {
-		this.wantCount = wantCount;
-	}
-
-	public Integer getViewCount() {
-		return viewCount;
-	}
-
-	public void setViewCount(Integer viewCount) {
-		this.viewCount = viewCount;
 	}
 
 	public void setSellerId(Integer sellerId) {
