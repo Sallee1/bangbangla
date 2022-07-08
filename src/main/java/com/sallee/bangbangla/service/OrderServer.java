@@ -11,10 +11,10 @@ import java.util.List;
 public interface OrderServer {
   /**
    * 为订单添加一个意愿者
-   * @param userItemRelateDTO
+   * @param orderDTO
    * @return 是否添加成功
    */
-  public boolean addWant(UserItemRelateDTO userItemRelateDTO);
+  public boolean addWant(OrderDTO  orderDTO);
 
   /**
    * 显示某个订单所有的意愿者
@@ -25,24 +25,19 @@ public interface OrderServer {
 
   /**
    * 选择一个意愿者
-   * @param userItemRelateDTO
+   * @param orderDTO
    * @return 被选中意愿者的ID
    */
-  public Integer chooseBuyer(UserItemRelateDTO userItemRelateDTO);
+  public Integer chooseBuyer(OrderDTO orderDTO);
 
-  /**
-   * 创建订单
-   * @param orderDTO
-   * @return 订单ID
-   */
-  public Integer createOrder(OrderDTO orderDTO);
+
 
   /**
    * 支付某个订单的钱款
-   * @param orderId
+   * @param itemId
    * @return 是否支付成功
    */
-  public boolean pay(Integer orderId);
+  public boolean pay(Integer itemId);
 
   /**
    * 完成订单

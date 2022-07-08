@@ -1,9 +1,10 @@
 package com.sallee.bangbangla.pojo.DTO;
 
 public class OrderDTO {
+    Integer itemId;
     Integer sellerId;
     Integer buyerId;
-    Integer itemId;
+
     
 
     public Integer getSellerId() {

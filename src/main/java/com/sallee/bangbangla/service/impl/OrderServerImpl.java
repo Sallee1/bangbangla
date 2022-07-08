@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sallee.bangbangla.mapper.*;
 import com.sallee.bangbangla.pojo.DAO.*;
 import com.sallee.bangbangla.pojo.DTO.OrderDTO;
-import com.sallee.bangbangla.pojo.DTO.UserItemRelateDTO;
 import com.sallee.bangbangla.pojo.VO.UserCreditVO;
 import com.sallee.bangbangla.service.OrderServer;
 import org.springframework.beans.BeanUtils;
@@ -19,22 +18,22 @@ public class OrderServerImpl implements OrderServer {
 	@Autowired
 	public ItemMapper itemMapper;
 	@Autowired
+	public UserItemRelateMapper userItemRelateMapper;
+
+	@Autowired
 	public OrderMapper orderMapper;
 	@Autowired
 	public UserMapper userMapper;
 	@Autowired
-	public UserItemRelateMapper userItemRelateMapper;
-	@Autowired
-	public UserItemRelateHistoryMapper userItemRelateHistoryMapper;
-	@Autowired
 	public OrderHistoryMapper orderHistoryMapper;
 
 	@Override
-	public boolean addWant(UserItemRelateDTO userItemRelateDTO) {
+	public boolean addWant(OrderDTO  orderDTO) {
 		OrderDAO orderDAO = new OrderDAO();
-		BeanUtils.copyProperties(userItemRelateDTO, orderDAO);
-		int insertRow = userItemRelateMapper.insert(orderDAO);
-		if (insertRow > 0){
+		orderDAO.setBuyerId(orderDTO.getBuyerId());
+		orderDAO.setItemId(orderDTO.getItemId());
+		//将订单信息加入 用户-物品映射表
+		if (orderMapper.insert(orderDAO) > 0){
 			return true;
 		}
 		else{
@@ -46,46 +45,42 @@ public class OrderServerImpl implements OrderServer {
 	public List<UserCreditVO> selectAllBuyer(Integer itemId) {
 		QueryWrapper queryWrapper = new QueryWrapper();
 		queryWrapper.eq("item_id",itemId);
-		List<UserCreditVO> daoList = userItemRelateMapper.selectList(queryWrapper);
-		return daoList;
+		List<UserCreditVO> buyerList = orderMapper.selectList(queryWrapper);
+		return buyerList;
 	}
 
 	@Override
-	public Integer chooseBuyer(UserItemRelateDTO userItemRelateDTO) {
-
-
-		return null;
-	}
-
-	@Override
-	public Integer createOrder(OrderDTO orderDTO) {
-		OrderDAO orderDAO = new OrderDAO();
-		BeanUtils.copyProperties(orderDTO,orderDAO);
+	public Integer chooseBuyer(OrderDTO orderDTO) {
 		ItemDAO itemDAO = itemMapper.selectById(orderDTO.getItemId());
+
+		//指定buyer
+		itemDAO.setBuyerId(orderDTO.getBuyerId());
 
 		//根据item交易类型来决定谁付钱
 		if(itemDAO.getMainLabel() == 0){
-			orderDAO.setPayState(0);
+			itemDAO.setPayState(0);
 		}else{
-			orderDAO.setPayState(1);
+			itemDAO.setPayState(1);
 		}
 		//设订单状态为等待支付
-		itemDAO.setState(0);
-		//订单创建时间留空，让数据库自动填写
-
-		return orderDAO.getId();
+		itemDAO.setState(1);
+		//更新数据库item表数据
+		if (itemMapper.updateById(itemDAO) == 0){
+			throw new RuntimeException("ITEM_UPDATE_FAIL");
+		}
+		return itemDAO.getId();
 	}
 
+
 	@Override
-	public boolean pay(Integer orderId) {
-		OrderDAO orderDAO = orderMapper.selectById(orderId);
-		ItemDAO itemDAO = itemMapper.selectById(orderDAO.getItemId());
+	public boolean pay(Integer itemId) {
+		ItemDAO itemDAO = itemMapper.selectById(itemId);
 
 		Integer payerId;
-		if(orderDAO.getState() == 0){
-			payerId = orderDAO.getBuyerId();
+		if(itemDAO.getState() == 0){
+			payerId = itemDAO.getBuyerId();
 		}else {
-			payerId = orderDAO.getSellerId();
+			payerId = itemDAO.getSellerId();
 		}
 
 		UserDAO userDAO = userMapper.selectById(payerId);
@@ -98,9 +93,9 @@ public class OrderServerImpl implements OrderServer {
 			}
 
 			//更改订单状态为处理中
-			orderDAO.setPayState(2);
-			if (orderMapper.updateById(orderDAO) == 0){
-				throw new RuntimeException("ORDER_UPDATE_FAIL");
+			itemDAO.setPayState(2);
+			if (itemMapper.updateById(itemDAO) == 0){
+				throw new RuntimeException("ITEM_UPDATE_FAIL");
 			}
 			return true;
 		}else {
@@ -111,29 +106,52 @@ public class OrderServerImpl implements OrderServer {
 
 	@Override
 	public boolean finishOrder(Integer orderId) {
-		OrderDAO orderDAO = orderMapper.selectById(orderId);
-		ItemDAO itemDAO = itemMapper.selectById(orderDAO.getItemId());
+		OrderDAO orderDAO = new OrderDAO();
+		Integer itemId = orderDAO.getItemId();
+		ItemDAO itemDAO = itemMapper.selectById(itemId);
 
 		//查找收钱人的信息
-		Integer sellerId;
-		if(orderDAO.getState() == 0){
-			sellerId = orderDAO.getSellerId();
+		Integer bePayerId;
+		if(itemDAO.getState() == 0){
+			bePayerId = itemDAO.getSellerId();
 		}else {
-			sellerId = orderDAO.getBuyerId();
+			bePayerId = itemDAO.getBuyerId();
 		}
-		UserDAO userDAO = userMapper.selectById(sellerId);
+		UserDAO userDAO = userMapper.selectById(bePayerId);
 
-
-		//给seller加上item的价格
-		userDAO.setScore(userDAO.getScore() - itemDAO.getPrice());
+		//给bePayerId加上item的价格
+		userDAO.setScore(userDAO.getScore() + itemDAO.getPrice());
 		if (userMapper.updateById(userDAO) == 0){
 			throw new RuntimeException("USER_UPDATE_FAIL");
 		}
 
-		//更改订单状态为完成
-		orderDAO.setPayState(2);
-		//将订单移入Order_History表
+		//将 用户-订单表 移入Order_History表
 		OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
+		BeanUtils.copyProperties(orderDAO,orderHistoryDAO);
+
+		//1.先添加数据
+		if (userItemRelateMapper.insert(orderHistoryDAO) == 0){
+			throw new RuntimeException("ITEM_UPDATE_FAIL");
+		}else {
+			//2.添加成功再删除Order表中的数据
+			if (orderMapper.deleteById(orderDAO) == 0)
+				throw new RuntimeException("ORDER_DELETE_FAIL");
+		}
+
+		//更改订单状态为完成
+		itemDAO.setPayState(3);
+		//将item移入Item_History表
+		ItemHistoryDAO itemHistoryDAO = new ItemHistoryDAO();
+		BeanUtils.copyProperties(itemDAO,itemHistoryDAO);
+
+		//1.先将item插入入item_history表
+		if (orderHistoryMapper.insert(itemHistoryDAO) == 0){
+			throw new RuntimeException("ITEMHISTORY_UPDATE_FAIL");
+		}else{
+			//2.插入成功后再删掉item表中的item
+			if (itemMapper.deleteById(itemDAO) == 0)
+				throw new RuntimeException("ITEMHISTORY_DELETE_FAIL");
+		}
 
 		return true;
 
@@ -141,6 +159,38 @@ public class OrderServerImpl implements OrderServer {
 
 	@Override
 	public boolean moveToHistory(Integer orderId) {
+		OrderDAO orderDAO = new OrderDAO();
+		Integer itemId = orderDAO.getItemId();
+		ItemDAO itemDAO = itemMapper.selectById(itemId);
+
+		//将 用户-订单表 移入Order_History表
+		OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
+		BeanUtils.copyProperties(orderDAO,orderHistoryDAO);
+
+		//1.先添加数据
+		if (userItemRelateMapper.insert(orderHistoryDAO) == 0){
+			throw new RuntimeException("ITEM_UPDATE_FAIL");
+		}else {
+			//2.添加成功再删除Order表中的数据
+			if (orderMapper.deleteById(orderDAO) == 0)
+				throw new RuntimeException("ORDER_DELETE_FAIL");
+		}
+
+		//更改订单状态为完成
+		itemDAO.setPayState(3);
+		//将item移入Item_History表
+		ItemHistoryDAO itemHistoryDAO = new ItemHistoryDAO();
+		BeanUtils.copyProperties(itemDAO,itemHistoryDAO);
+
+		//1.先将item插入入item_history表
+		if (orderHistoryMapper.insert(itemHistoryDAO) == 0){
+			throw new RuntimeException("ITEMHISTORY_UPDATE_FAIL");
+		}else{
+			//2.插入成功后再删掉item表中的item
+			if (itemMapper.deleteById(itemDAO) == 0)
+				throw new RuntimeException("ITEMHISTORY_DELETE_FAIL");
+		}
+
 		return false;
 	}
 }

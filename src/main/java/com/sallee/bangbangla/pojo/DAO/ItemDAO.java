@@ -27,7 +27,6 @@ public class ItemDAO {
 	Integer wantCount;
 	Integer viewCount;
 	String commit;
-
 	Integer credit;
 
 	public ItemDAO(){}

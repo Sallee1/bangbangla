@@ -38,7 +38,7 @@ public class AdminServerImpl implements AdminServer {
 	@Autowired
 	public UserItemRelateMapper userItemRelateMapper;
 	@Autowired
-	public UserItemRelateHistoryMapper userItemRelateHistoryMapper;
+	public UserItemRelateMapper itemHistoryMapper;
 
 
 	@Override
@@ -123,7 +123,7 @@ public class AdminServerImpl implements AdminServer {
 			orderHistoryMapper.delete(hisItemQueryWrapper);
 			QueryWrapper userItemHisQueryWrapper = new QueryWrapper();
 			userItemHisQueryWrapper.eq("item_id",itemId);
-			userItemRelateHistoryMapper.delete(userItemHisQueryWrapper);
+			itemHistoryMapper.delete(userItemHisQueryWrapper);
 		}
 		else
 		{

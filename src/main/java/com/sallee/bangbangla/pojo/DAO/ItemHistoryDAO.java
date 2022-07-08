@@ -22,7 +22,6 @@ public class ItemHistoryDAO {
 	Integer mainLabel;
 	List<String> subLabel;
 	String commit;
-
 	Integer credit;
 
 	public ItemHistoryDAO(){}
