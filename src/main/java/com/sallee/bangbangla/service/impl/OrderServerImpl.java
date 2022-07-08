@@ -56,7 +56,7 @@ public class OrderServerImpl implements OrderServer {
 		//指定buyer
 		itemDAO.setBuyerId(orderDTO.getBuyerId());
 
-		//根据item交易类型来决定谁付钱
+//		根据item交易类型来决定谁付钱
 		if(itemDAO.getMainLabel() == 0){
 			itemDAO.setPayState(0);
 		}else{
@@ -77,6 +77,7 @@ public class OrderServerImpl implements OrderServer {
 		ItemDAO itemDAO = itemMapper.selectById(itemId);
 
 		Integer payerId;
+
 		if(itemDAO.getState() == 0){
 			payerId = itemDAO.getBuyerId();
 		}else {
@@ -111,9 +112,11 @@ public class OrderServerImpl implements OrderServer {
 		ItemDAO itemDAO = itemMapper.selectById(itemId);
 
 		//查找收钱人的信息
+
 		Integer bePayerId;
 		if(itemDAO.getState() == 0){
 			bePayerId = itemDAO.getSellerId();
+
 		}else {
 			bePayerId = itemDAO.getBuyerId();
 		}
@@ -125,7 +128,7 @@ public class OrderServerImpl implements OrderServer {
 			throw new RuntimeException("USER_UPDATE_FAIL");
 		}
 
-		//将 用户-订单表 移入Order_History表
+		//将订单移入Order_History表		
 		OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
 		BeanUtils.copyProperties(orderDAO,orderHistoryDAO);
 

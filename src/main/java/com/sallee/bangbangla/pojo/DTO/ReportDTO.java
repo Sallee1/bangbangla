@@ -7,7 +7,6 @@ public class ReportDTO {
 	Integer reportId;
 	Integer beReportId;
 	Integer itemId;
-	Date reportTime;
 	String result;
 
 	public ReportDTO() {}
@@ -16,7 +15,7 @@ public class ReportDTO {
 		this.reportId = reportId;
 		this.beReportId = beReportId;
 		this.itemId = itemId;
-		this.reportTime = reportTime;
+
 		this.result = result;
 	}
 
@@ -44,13 +43,6 @@ public class ReportDTO {
 		this.itemId = itemId;
 	}
 
-	public Date getReportTime() {
-		return reportTime;
-	}
-
-	public void setReportTime(Date reportTime) {
-		this.reportTime = reportTime;
-	}
 
 	public String getResult() {
 		return result;

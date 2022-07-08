@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.util.Date;
 
-@TableName("char_list")
+@TableName("chat_list")
 public class ChatDAO {
 	@TableId(type = IdType.AUTO)
 	Integer id;
