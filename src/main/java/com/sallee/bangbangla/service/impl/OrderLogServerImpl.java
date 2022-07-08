@@ -1,6 +1,7 @@
 package com.sallee.bangbangla.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sallee.bangbangla.mapper.ItemMapper;
 import com.sallee.bangbangla.pojo.DTO.UserItemRelateDTO;
 import com.sallee.bangbangla.pojo.VO.OrderLogDetailVO;
@@ -18,16 +19,23 @@ public class OrderLogServerImpl implements OrderLogServer {
 
 	@Override
 	public List<OrderLogVO> showOrderFrom(Integer userId) {
-		return null;
+		QueryWrapper queryWrapper = new QueryWrapper();
+		queryWrapper.eq("sellerID",userId);
+		List<OrderLogVO> list = itemMapper.selectList(queryWrapper);
+		return list;
 	}
 
 	@Override
 	public List<OrderLogVO> showOrderTo(Integer userId) {
-		return null;
+		QueryWrapper queryWrapper = new QueryWrapper();
+		queryWrapper.eq("buyerID",userId);
+		List<OrderLogVO> list = itemMapper.selectList(queryWrapper);
+		return list;
 	}
 
 	@Override
 	public OrderLogDetailVO showOrderDetail(UserItemRelateDTO userItemRelateDTO) {
+		
 		return null;
 	}
 }
