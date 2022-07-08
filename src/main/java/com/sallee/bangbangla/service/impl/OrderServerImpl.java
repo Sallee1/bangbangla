@@ -31,6 +31,12 @@ public class OrderServerImpl implements OrderServer {
 		OrderDAO orderDAO = new OrderDAO();
 		orderDAO.setBuyerId(orderDTO.getBuyerId());
 		orderDAO.setItemId(orderDTO.getItemId());
+		//检测订单是否写过
+		QueryWrapper wrapper = new QueryWrapper();
+		wrapper.eq("item_id",orderDTO.getItemId());
+		wrapper.eq("buyer_id",orderDAO.getBuyerId());
+		if(orderMapper.selectOne(wrapper) != null)
+			throw new RuntimeException("ORDER_ALREADY_EXIST");
 		//将订单信息加入 用户-物品映射表
 		if (orderMapper.insert(orderDAO) > 0){
 			return true;

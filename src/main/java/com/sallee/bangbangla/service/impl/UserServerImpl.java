@@ -151,15 +151,15 @@ public class UserServerImpl implements UserServer {
 	}
 
 	@Override
-	public boolean updataPassword(UpdatePasswordDTO updataPasswordDTO) {
-		if(!updataPasswordDTO.getNewPassword().equals(updataPasswordDTO.getPasswordAgain()))
+	public boolean updatePassword(UpdatePasswordDTO updatePasswordDTO) {
+		if(!updatePasswordDTO.getNewPassword().equals(updatePasswordDTO.getPasswordAgain()))
 			throw new RuntimeException("密码输入两次不对");
 		QueryWrapper queryWrapper = new QueryWrapper();
-		queryWrapper.eq("id",updataPasswordDTO.getUserId());
-		queryWrapper.eq("password",updataPasswordDTO.getPassword());
+		queryWrapper.eq("id",updatePasswordDTO.getUserId());
+		queryWrapper.eq("password",updatePasswordDTO.getPassword());
 
 		UserDAO userDAO = new UserDAO();
-		userDAO.setPassword(updataPasswordDTO.getNewPassword());
+		userDAO.setPassword(updatePasswordDTO.getNewPassword());
 
 		int updateRow = userMapper.update(userDAO,queryWrapper);
 

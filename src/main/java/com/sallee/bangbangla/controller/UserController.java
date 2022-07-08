@@ -68,7 +68,7 @@ public class UserController {
 
 	@RequestMapping("/user/updatePassword")
 	public ServerResult updatePassword(UpdatePasswordDTO updatePasswordDTO) {
-		boolean upadateIsSus = userServer.updataPassword(updatePasswordDTO);
+		boolean upadateIsSus = userServer.updatePassword(updatePasswordDTO);
 		if(upadateIsSus)
 			return new ServerResult(0,"修改密码成功",null);
 		else

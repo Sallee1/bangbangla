@@ -45,5 +45,5 @@ public interface UserServer {
    * @param updataPasswordDTO
    * @return 是否修改成功
    */
-  public boolean updataPassword(UpdatePasswordDTO updataPasswordDTO);
+  public boolean updatePassword(UpdatePasswordDTO updataPasswordDTO);
 }
