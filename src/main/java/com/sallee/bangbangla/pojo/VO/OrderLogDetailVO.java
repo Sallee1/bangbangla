@@ -1,26 +1,25 @@
 package com.sallee.bangbangla.pojo.VO;
 
 
-import java.util.Date;
 import java.util.List;
 
 public class OrderLogDetailVO {
 	Integer orderId;
 	String title;
-	Date createTime;
+	String createTime;
 	Integer score;
 	String mainLabel;
-	List<String> subLabel;
+	String subLabel;
 	String introduce;
-	Integer payState;
+	String payState;
 	String state;
 	List<UserCreditVO> wantList;
 
 	public OrderLogDetailVO() {
 	}
 
-	public OrderLogDetailVO(Integer orderId, String title, Date createTime, Integer score, String mainLabel,
-													List<String> subLabel, String introduce, Integer payState, String state,
+	public OrderLogDetailVO(Integer orderId, String title, String createTime, Integer score, String mainLabel,
+													String subLabel, String introduce, String payState, String state,
 													List<UserCreditVO> wantList) {
 		this.orderId = orderId;
 		this.title = title;
@@ -50,11 +49,11 @@ public class OrderLogDetailVO {
 		this.title = title;
 	}
 
-	public Date getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 
@@ -74,11 +73,11 @@ public class OrderLogDetailVO {
 		this.mainLabel = mainLabel;
 	}
 
-	public List<String> getSubLabel() {
+	public String getSubLabel() {
 		return subLabel;
 	}
 
-	public void setSubLabel(List<String> subLabel) {
+	public void setSubLabel(String subLabel) {
 		this.subLabel = subLabel;
 	}
 
@@ -90,11 +89,11 @@ public class OrderLogDetailVO {
 		this.introduce = introduce;
 	}
 
-	public Integer getPayState() {
+	public String getPayState() {
 		return payState;
 	}
 
-	public void setPayState(Integer payState) {
+	public void setPayState(String payState) {
 		this.payState = payState;
 	}
 

@@ -2,7 +2,7 @@ package com.sallee.bangbangla.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sallee.bangbangla.mapper.ChatMapper;
-import com.sallee.bangbangla.mapper.OrderHistoryMapper;
+import com.sallee.bangbangla.mapper.ItemHistoryMapper;
 import com.sallee.bangbangla.mapper.ReportMapper;
 import com.sallee.bangbangla.mapper.UserMapper;
 import com.sallee.bangbangla.pojo.DAO.ChatDAO;
@@ -25,7 +25,7 @@ public class UserInterServerImpl implements UserInterServer {
 	@Autowired
 	public ReportMapper reportMapper;
 	@Autowired
-	public OrderHistoryMapper orderHistoryMapper;
+	public ItemHistoryMapper itemHistoryMapper;
 
 	@Override
 	public boolean addChat(ChatDTO chatDTO) {
@@ -60,7 +60,7 @@ public class UserInterServerImpl implements UserInterServer {
 		QueryWrapper queryWrapper = new QueryWrapper();
 		queryWrapper.eq("id",commitDTO.getItemId());
 
-		ItemHistoryDAO itemHistoryDAO = orderHistoryMapper.selectOne(queryWrapper);
+		ItemHistoryDAO itemHistoryDAO = itemHistoryMapper.selectOne(queryWrapper);
 
 		if(itemHistoryDAO==null){
 			throw new RuntimeException("没有查到Id");

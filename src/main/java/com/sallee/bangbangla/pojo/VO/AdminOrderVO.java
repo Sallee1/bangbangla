@@ -2,6 +2,7 @@ package com.sallee.bangbangla.pojo.VO;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.sallee.bangbangla.mapper.ItemMapper;
 import com.sallee.bangbangla.mapper.OrderMapper;
 import com.sallee.bangbangla.pojo.DAO.ItemDAO;
 import com.sallee.bangbangla.pojo.DAO.ItemHistoryDAO;
@@ -30,7 +31,7 @@ public class AdminOrderVO {
 
 	public AdminOrderVO() {}
 
-	public AdminOrderVO(ItemDAO itemDAO, OrderMapper orderMapper)
+	public AdminOrderVO(ItemDAO itemDAO)
 	{
 		//克隆参数
 		BeanUtils.copyProperties(itemDAO,this);

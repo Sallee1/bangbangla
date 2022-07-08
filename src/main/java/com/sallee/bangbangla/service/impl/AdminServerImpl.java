@@ -28,7 +28,7 @@ public class AdminServerImpl implements AdminServer {
 	@Autowired
 	public OrderMapper orderMapper;
 	@Autowired
-	public OrderHistoryMapper orderHistoryMapper;
+	public ItemHistoryMapper itemHistoryMapper;
 	@Autowired
 	public AdminMapper adminMapper;
 	@Autowired
@@ -36,9 +36,8 @@ public class AdminServerImpl implements AdminServer {
 	@Autowired
 	public ReportMapper reportMapper;
 	@Autowired
-	public UserItemRelateMapper userItemRelateMapper;
-	@Autowired
-	public UserItemRelateMapper itemHistoryMapper;
+	public OrderHistoryMapper orderHistoryMapper;
+
 
 	@Override
 	public Integer login(LoginDTO loginDTO) {
@@ -68,7 +67,7 @@ public class AdminServerImpl implements AdminServer {
 			QueryWrapper hisItemQueryWrapper = new QueryWrapper();
 			hisItemQueryWrapper.eq("id",itemId);
 
-			hisItem = orderHistoryMapper.selectOne(hisItemQueryWrapper);
+			hisItem = itemHistoryMapper.selectOne(hisItemQueryWrapper);
 			if(hisItem == null) throw new RuntimeException("ITEM_NOT_EXIST");
 			isOld = true;
 		}
@@ -76,7 +75,7 @@ public class AdminServerImpl implements AdminServer {
 		//装载
 		AdminOrderVO adminOrderVO;
 		if(isOld) adminOrderVO = new AdminOrderVO(hisItem);
-		else adminOrderVO = new AdminOrderVO(item,orderMapper);
+		else adminOrderVO = new AdminOrderVO(item);
 		return adminOrderVO;
 	}
 
@@ -84,11 +83,11 @@ public class AdminServerImpl implements AdminServer {
 	public List<AdminOrderVO> selectAllOrder() {
 		//查询所有的订单表和历史订单表
 		List<ItemDAO> items = itemMapper.selectList(null);
-		List<ItemHistoryDAO> itemHistoryDAOS = orderHistoryMapper.selectList(null);
+		List<ItemHistoryDAO> itemHistoryDAOS = itemHistoryMapper.selectList(null);
 		//复制到AdminOrderVO
 		List<AdminOrderVO> adminOrderVOList = new ArrayList<>();
 		for (ItemDAO item : items)
-			adminOrderVOList.add(new AdminOrderVO(item, orderMapper));
+			adminOrderVOList.add(new AdminOrderVO(item));
 		for (ItemHistoryDAO hisItems : itemHistoryDAOS)
 			adminOrderVOList.add(new AdminOrderVO(hisItems));
 
@@ -111,7 +110,7 @@ public class AdminServerImpl implements AdminServer {
 			hisItemQueryWrapper = new QueryWrapper();
 			hisItemQueryWrapper.eq("id",itemId);
 
-			hisItem = orderHistoryMapper.selectOne(hisItemQueryWrapper);
+			hisItem = itemHistoryMapper.selectOne(hisItemQueryWrapper);
 			if(hisItem == null) throw new RuntimeException("ITEM_NOT_EXIST");
 			isOld = true;
 		}
@@ -119,7 +118,7 @@ public class AdminServerImpl implements AdminServer {
 		//移除对应的订单
 		if(isOld)
 		{
-			orderHistoryMapper.delete(hisItemQueryWrapper);
+			itemHistoryMapper.delete(hisItemQueryWrapper);
 			QueryWrapper userItemHisQueryWrapper = new QueryWrapper();
 			userItemHisQueryWrapper.eq("item_id",itemId);
 			itemHistoryMapper.delete(userItemHisQueryWrapper);
@@ -129,7 +128,7 @@ public class AdminServerImpl implements AdminServer {
 			itemMapper.delete(itemQueryWrapper);
 			QueryWrapper orderQueryWrapper = new QueryWrapper();
 			orderQueryWrapper.eq("item_id",itemId);
-			userItemRelateMapper.delete(orderQueryWrapper);
+			orderHistoryMapper.delete(orderQueryWrapper);
 			orderMapper.delete(orderQueryWrapper);
 		}
 		return true;
