@@ -43,7 +43,7 @@ public interface AdminServer {
    * @param userId
    * @return 管理员视图显示的用户
    */
-  public AdminUserVO selectUserWithId(String userId);
+  public AdminUserVO selectUserWithId(Integer userId);
 
   /**
    * 查看所有用户的详细信息

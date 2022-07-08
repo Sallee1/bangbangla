@@ -40,7 +40,6 @@ public class AdminServerImpl implements AdminServer {
 	@Autowired
 	public UserItemRelateMapper itemHistoryMapper;
 
-
 	@Override
 	public Integer login(LoginDTO loginDTO) {
 		//从数据库查询管理员是否存在
@@ -137,7 +136,7 @@ public class AdminServerImpl implements AdminServer {
 	}
 
 	@Override
-	public AdminUserVO selectUserWithId(String userId) {
+	public AdminUserVO selectUserWithId(Integer userId) {
 		QueryWrapper queryWrapper = new QueryWrapper();
 		queryWrapper.eq("id",userId);
 		UserDAO userDAO = userMapper.selectOne(queryWrapper);

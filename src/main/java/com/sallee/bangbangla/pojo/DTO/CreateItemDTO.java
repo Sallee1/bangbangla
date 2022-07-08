@@ -1,7 +1,6 @@
 package com.sallee.bangbangla.pojo.DTO;
 
 
-import java.nio.file.Files;
 import java.util.List;
 
 public class CreateItemDTO {
@@ -9,14 +8,14 @@ public class CreateItemDTO {
 	String title;
 	String introduce;
 	Integer price;
-	List<String> imageData;
+	String imageData;
 	String mainLabel;
-	List<String> subLabel;
+	String subLabel;
 
 	public CreateItemDTO(){}
 
-	public CreateItemDTO(Integer sellerId, String title, String introduce, Integer price, List<String> imageData,
-											 String mainLabel, List<String> subLabel) {
+	public CreateItemDTO(Integer sellerId, String title, String introduce, Integer price, String imageData,
+											 String mainLabel, String subLabel) {
 		this.sellerId = sellerId;
 		this.title = title;
 		this.introduce = introduce;
@@ -58,11 +57,11 @@ public class CreateItemDTO {
 		this.price = price;
 	}
 
-	public List<String> getImageData() {
+	public String getImageData() {
 		return imageData;
 	}
 
-	public void setImageData(List<String> imageData) {
+	public void setImageData(String imageData) {
 		this.imageData = imageData;
 	}
 
@@ -74,11 +73,11 @@ public class CreateItemDTO {
 		this.mainLabel = mainLabel;
 	}
 
-	public List<String> getSubLabel() {
+	public String getSubLabel() {
 		return subLabel;
 	}
 
-	public void setSubLabel(List<String> subLabel) {
+	public void setSubLabel(String subLabel) {
 		this.subLabel = subLabel;
 	}
 }
