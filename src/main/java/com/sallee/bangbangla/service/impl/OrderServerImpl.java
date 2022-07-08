@@ -63,11 +63,11 @@ public class OrderServerImpl implements OrderServer {
 		BeanUtils.copyProperties(orderDTO,orderDAO);
 		ItemDAO itemDAO = itemMapper.selectById(orderDTO.getItemId());
 
-		//根据item交易类型来决定谁付钱
+//		根据item交易类型来决定谁付钱
 		if(itemDAO.getMainLabel() == 0){
-			orderDAO.setPayState(0);
+			itemDAO.setPayState(0);
 		}else{
-			orderDAO.setPayState(1);
+			itemDAO.setPayState(1);
 		}
 		//设订单状态为等待支付
 		itemDAO.setState(0);
@@ -82,10 +82,10 @@ public class OrderServerImpl implements OrderServer {
 		ItemDAO itemDAO = itemMapper.selectById(orderDAO.getItemId());
 
 		Integer payerId;
-		if(orderDAO.getState() == 0){
+		if(itemDAO.getState() == 0){
 			payerId = orderDAO.getBuyerId();
 		}else {
-			payerId = orderDAO.getSellerId();
+			payerId = itemDAO.getSellerId();
 		}
 
 		UserDAO userDAO = userMapper.selectById(payerId);
@@ -98,7 +98,7 @@ public class OrderServerImpl implements OrderServer {
 			}
 
 			//更改订单状态为处理中
-			orderDAO.setPayState(2);
+			itemDAO.setPayState(2);
 			if (orderMapper.updateById(orderDAO) == 0){
 				throw new RuntimeException("ORDER_UPDATE_FAIL");
 			}
@@ -116,8 +116,8 @@ public class OrderServerImpl implements OrderServer {
 
 		//查找收钱人的信息
 		Integer sellerId;
-		if(orderDAO.getState() == 0){
-			sellerId = orderDAO.getSellerId();
+		if(itemDAO.getState() == 0){
+			sellerId = itemDAO.getSellerId();
 		}else {
 			sellerId = orderDAO.getBuyerId();
 		}
@@ -131,7 +131,7 @@ public class OrderServerImpl implements OrderServer {
 		}
 
 		//更改订单状态为完成
-		orderDAO.setPayState(2);
+		itemDAO.setPayState(2);
 		//将订单移入Order_History表
 		OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
 
