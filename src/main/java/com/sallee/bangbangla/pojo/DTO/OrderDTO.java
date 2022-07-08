@@ -4,6 +4,7 @@ public class OrderDTO {
     Integer sellerId;
     Integer buyerId;
     Integer itemId;
+    
 
     public Integer getSellerId() {
         return sellerId;

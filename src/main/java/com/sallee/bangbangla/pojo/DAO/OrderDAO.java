@@ -10,7 +10,6 @@ public class OrderDAO {
 	Integer id;
 	Integer itemId;
 	Integer buyerId;
-
 	public OrderDAO(){}
 
 	public OrderDAO(Integer id, Integer itemId, Integer buyerId) {

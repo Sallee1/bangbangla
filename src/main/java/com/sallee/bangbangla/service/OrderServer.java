@@ -1,6 +1,8 @@
 package com.sallee.bangbangla.service;
 
 
+import com.sallee.bangbangla.pojo.DAO.ItemDAO;
+import com.sallee.bangbangla.pojo.DTO.OrderDTO;
 import com.sallee.bangbangla.pojo.DTO.UserItemRelateDTO;
 import com.sallee.bangbangla.pojo.VO.UserCreditVO;
 
@@ -27,6 +29,13 @@ public interface OrderServer {
    * @return 被选中意愿者的ID
    */
   public Integer chooseBuyer(UserItemRelateDTO userItemRelateDTO);
+
+  /**
+   * 创建订单
+   * @param orderDTO
+   * @return 订单ID
+   */
+  public Integer createOrder(OrderDTO orderDTO);
 
   /**
    * 支付某个订单的钱款
