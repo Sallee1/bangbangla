@@ -54,9 +54,4 @@ public class StaticTool {
     String res = String.format("%tF%n",date);
     return res;
   }
-
-  public static String list2Json(List<String> list)
-  {
-    
-  }
 }
