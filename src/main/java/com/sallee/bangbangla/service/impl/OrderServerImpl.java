@@ -18,13 +18,13 @@ public class OrderServerImpl implements OrderServer {
 	@Autowired
 	public ItemMapper itemMapper;
 	@Autowired
-	public UserItemRelateMapper userItemRelateMapper;
+	public OrderHistoryMapper orderHistoryMapper;
 	@Autowired
 	public OrderMapper orderMapper;
 	@Autowired
 	public UserMapper userMapper;
 	@Autowired
-	public OrderHistoryMapper orderHistoryMapper;
+	public ItemHistoryMapper itemHistoryMapper;
 
 	@Override
 	public boolean addWant(OrderDTO  orderDTO) {
@@ -132,7 +132,7 @@ public class OrderServerImpl implements OrderServer {
 		BeanUtils.copyProperties(orderDAO,orderHistoryDAO);
 
 		//1.先添加数据
-		if (userItemRelateMapper.insert(orderHistoryDAO) == 0){
+		if (orderHistoryMapper.insert(orderHistoryDAO) == 0){
 			throw new RuntimeException("ITEM_UPDATE_FAIL");
 		}else {
 			//2.添加成功再删除Order表中的数据
@@ -147,7 +147,7 @@ public class OrderServerImpl implements OrderServer {
 		BeanUtils.copyProperties(itemDAO,itemHistoryDAO);
 
 		//1.先将item插入入item_history表
-		if (orderHistoryMapper.insert(itemHistoryDAO) == 0){
+		if (itemHistoryMapper.insert(itemHistoryDAO) == 0){
 			throw new RuntimeException("ITEMHISTORY_UPDATE_FAIL");
 		}else{
 			//2.插入成功后再删掉item表中的item
@@ -170,7 +170,7 @@ public class OrderServerImpl implements OrderServer {
 		BeanUtils.copyProperties(orderDAO,orderHistoryDAO);
 
 		//1.先添加数据
-		if (userItemRelateMapper.insert(orderHistoryDAO) == 0){
+		if (orderHistoryMapper.insert(orderHistoryDAO) == 0){
 			throw new RuntimeException("ITEM_UPDATE_FAIL");
 		}else {
 			//2.添加成功再删除Order表中的数据
@@ -185,7 +185,7 @@ public class OrderServerImpl implements OrderServer {
 		BeanUtils.copyProperties(itemDAO,itemHistoryDAO);
 
 		//1.先将item插入入item_history表
-		if (orderHistoryMapper.insert(itemHistoryDAO) == 0){
+		if (itemHistoryMapper.insert(itemHistoryDAO) == 0){
 			throw new RuntimeException("ITEMHISTORY_UPDATE_FAIL");
 		}else{
 			//2.插入成功后再删掉item表中的item

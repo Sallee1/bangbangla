@@ -6,13 +6,13 @@ import java.util.Date;
 public class OrderLogVO {
 	Integer orderId;
 	String title;
-	Date createTime;
+	String createTime;
 	String state;
 
 	public OrderLogVO() {
 	}
 
-	public OrderLogVO(Integer orderId, String title, Date createTime, String state) {
+	public OrderLogVO(Integer orderId, String title, String createTime, String state) {
 		this.orderId = orderId;
 		this.title = title;
 		this.createTime = createTime;
@@ -35,11 +35,11 @@ public class OrderLogVO {
 		this.title = title;
 	}
 
-	public Date getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 
