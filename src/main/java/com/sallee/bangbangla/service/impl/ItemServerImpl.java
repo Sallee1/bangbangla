@@ -97,7 +97,7 @@ public class ItemServerImpl implements ItemServer {
 			ItemVO itemVO = new ItemVO();
 
 			if(itemDAO == null){
-				break;
+				continue;
 			}
 
 			Integer count=0 ;
