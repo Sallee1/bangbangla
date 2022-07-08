@@ -15,14 +15,14 @@ public class StaticTool {
     }
     byte[] hashedResult;
     hashedResult = sha256.digest(str.getBytes(StandardCharsets.UTF_8));
-    String hashResultStr = "";
+    StringBuilder hashResultStr = new StringBuilder();
     for (byte b : hashedResult) {
       String tmpStr = Integer.toHexString(b & 0xff);
       if(tmpStr.length() == 1)
         tmpStr = "0"+tmpStr;
-      hashResultStr += tmpStr;
+      hashResultStr.append(tmpStr);
     }
-    return hashResultStr;
+    return hashResultStr.toString();
   }
 
   public static String getSalt(){
@@ -31,7 +31,7 @@ public class StaticTool {
 
   public static String getSalt(int length){
     String CharMapper = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    String salt = "";
+    StringBuilder salt = new StringBuilder();
     SecureRandom random;
     try {
       random = SecureRandom.getInstance("SHA1PRNG");
@@ -40,9 +40,9 @@ public class StaticTool {
     }
     for (int i = 0; i < length; i++){
       int nextVal = Math.abs(random.nextInt()) % 62;
-      salt+=CharMapper.charAt(nextVal);
+      salt.append(CharMapper.charAt(nextVal));
     }
-    return salt;
+    return salt.toString();
   }
 
 }

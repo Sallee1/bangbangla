@@ -1,6 +1,9 @@
 package com.sallee.bangbangla.pojo.VO;
 
 
+import com.sallee.bangbangla.pojo.DAO.ReportDAO;
+import org.springframework.beans.BeanUtils;
+
 import java.util.Date;
 
 public class AdminReportVO {
@@ -13,23 +16,22 @@ public class AdminReportVO {
 	Integer itemTitle;
 	Date reportTime;
 	String result;
-	String state;
 
-	public AdminReportVO() {}
+	public AdminReportVO() {
+	}
 
 	public AdminReportVO(Integer id, Integer reportId, String reportUserName, Integer beReportId,
-											 String beReportUserName, Integer itemId, Integer itemTitle, Date reportTime, String result,
-											 String state) {
+											 String beReportUserName, Integer itemId, Integer itemTitle, Date reportTime, String result) {
 		this.id = id;
 		this.reportId = reportId;
-		this.reportUserName = reportUserName;
 		this.beReportId = beReportId;
-		this.beReportUserName = beReportUserName;
 		this.itemId = itemId;
-		this.itemTitle = itemTitle;
 		this.reportTime = reportTime;
 		this.result = result;
-		this.state = state;
+	}
+
+	public AdminReportVO(ReportDAO reportDAO) {
+		BeanUtils.copyProperties(reportDAO, this);
 	}
 
 	public Integer getId() {
@@ -102,13 +104,5 @@ public class AdminReportVO {
 
 	public void setResult(String result) {
 		this.result = result;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
 	}
 }

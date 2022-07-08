@@ -1,13 +1,17 @@
 package com.sallee.bangbangla.pojo.VO;
 
 
+import com.sallee.bangbangla.pojo.DAO.UserDAO;
+import com.sallee.bangbangla.pojo.Enum;
+import org.springframework.beans.BeanUtils;
+
 import java.util.Date;
 
 public class AdminUserVO {
 	Integer id;
 	String userName;
 	Date registerTime;
-	String state;
+	Date unbanTime;
 	String sex;
 	String nickName;
 	String introduction;
@@ -23,13 +27,13 @@ public class AdminUserVO {
 
 	public AdminUserVO() {}
 
-	public AdminUserVO(Integer id, String userName, Date registerTime, String state, String sex, String nickName,
+	public AdminUserVO(Integer id, String userName, Date registerTime, Date unbanTime, String sex, String nickName,
 										 String introduction, String realName, String idCard, String realTel, String universityPos,
 										 String universityName, String studentId, Integer score, Integer totalCredit, Integer creditCount) {
 		this.id = id;
 		this.userName = userName;
 		this.registerTime = registerTime;
-		this.state = state;
+		this.unbanTime = unbanTime;
 		this.sex = sex;
 		this.nickName = nickName;
 		this.introduction = introduction;
@@ -42,6 +46,13 @@ public class AdminUserVO {
 		this.score = score;
 		this.totalCredit = totalCredit;
 		this.creditCount = creditCount;
+	}
+
+	public AdminUserVO(UserDAO userDAO)
+	{
+		BeanUtils.copyProperties(userDAO,this);
+		//装载其他参数
+		this.sex = Enum.Sex.values()[userDAO.getSex()].toString();
 	}
 
 	public Integer getId() {
@@ -68,12 +79,12 @@ public class AdminUserVO {
 		this.registerTime = registerTime;
 	}
 
-	public String getState() {
-		return state;
+	public Date getUnbanTime() {
+		return unbanTime;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public void setUnbanTime(Date unbanTime) {
+		this.unbanTime = unbanTime;
 	}
 
 	public String getSex() {

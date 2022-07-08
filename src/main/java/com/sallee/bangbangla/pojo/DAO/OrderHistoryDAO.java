@@ -1,5 +1,7 @@
 package com.sallee.bangbangla.pojo.DAO;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.util.Date;
@@ -23,11 +25,13 @@ public class OrderHistoryDAO {
 	List<String> subLabel;
 	String commit;
 
+	Integer credit;
+
 	public OrderHistoryDAO(){}
 
 	public OrderHistoryDAO(Integer id, Integer sellerId, Integer buyerId, Date createTime, Date dealTime, Date finishTime,
 												 Integer state, Integer payState, String title, String introduce, Integer price, List<String> imagePaths,
-												 Integer mainLabel, List<String> subLabel, String commit) {
+												 Integer mainLabel, List<String> subLabel, String commit,int credit) {
 		this.id = id;
 		this.sellerId = sellerId;
 		this.buyerId = buyerId;
@@ -43,6 +47,7 @@ public class OrderHistoryDAO {
 		this.mainLabel = mainLabel;
 		this.subLabel = subLabel;
 		this.commit = commit;
+		this.credit = credit;
 	}
 
 	public Integer getId() {
@@ -163,5 +168,13 @@ public class OrderHistoryDAO {
 
 	public void setCommit(String commit) {
 		this.commit = commit;
+	}
+
+	public Integer getCredit() {
+		return credit;
+	}
+
+	public void setCredit(Integer credit) {
+		this.credit = credit;
 	}
 }

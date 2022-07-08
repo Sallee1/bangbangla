@@ -1,11 +1,16 @@
 package com.sallee.bangbangla.pojo.DAO;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.sallee.bangbangla.pojo.DTO.BanUserDTO;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 
 @TableName("ban_list")
 public class BanDAO {
+	@TableId(type = IdType.AUTO)
 	Integer id;
 	Integer banId;
 	Integer banType;

@@ -1,10 +1,13 @@
 package com.sallee.bangbangla.pojo.DAO;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("admins")
 public class AdminDAO {
+	@TableId(type = IdType.AUTO)
 	Integer id;
 	String userName;
 	String password;
