@@ -10,10 +10,20 @@ public class ItemVO {
 	Float sellerCredit;
 	String createTime;
 	String title;
+	String introduction;
 	Integer price;
 	String imagePath;
 	String mainLabel;
 	String subLabel;
+
+	public String getIntroduction() {
+		return introduction;
+	}
+
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
+	}
+
 	Integer want_count;
 	Integer view_count;
 

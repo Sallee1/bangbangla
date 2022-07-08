@@ -62,6 +62,7 @@ public class ItemServerImpl implements ItemServer {
 			temp.setSellerNickName(adminUserVO.getNickName());
 			temp.setSellerCredit(adminUserVO.getTotalCredit().floatValue() / adminUserVO.getCreditCount());
 			temp.setTitle(item.getTitle());
+			temp.setIntroduction(item.getIntroduce());
 			temp.setPrice(item.getPrice());
 			temp.setCreateTime(StaticTool.date2String(item.getCreateTime()));
 			temp.setImagePath(item.getImagePaths());
